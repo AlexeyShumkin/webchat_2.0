@@ -1,0 +1,1 @@
+/usr/bin/g++ -g -rdynamic CMakeFiles/client.dir/main.cpp.o CMakeFiles/client.dir/models.cpp.o CMakeFiles/client.dir/controllers.cpp.o CMakeFiles/client.dir/router.cpp.o -o client 

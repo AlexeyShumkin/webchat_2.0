@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/awl/projects/webchat_2.0/client/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/client.dir/main.cpp.o -c /home/awl/projects/webchat_2.0/client/main.cpp",
+  "file": "/home/awl/projects/webchat_2.0/client/main.cpp"
+},
+{
+  "directory": "/home/awl/projects/webchat_2.0/client/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/client.dir/models.cpp.o -c /home/awl/projects/webchat_2.0/client/models.cpp",
+  "file": "/home/awl/projects/webchat_2.0/client/models.cpp"
+},
+{
+  "directory": "/home/awl/projects/webchat_2.0/client/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/client.dir/controllers.cpp.o -c /home/awl/projects/webchat_2.0/client/controllers.cpp",
+  "file": "/home/awl/projects/webchat_2.0/client/controllers.cpp"
+},
+{
+  "directory": "/home/awl/projects/webchat_2.0/client/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/client.dir/router.cpp.o -c /home/awl/projects/webchat_2.0/client/router.cpp",
+  "file": "/home/awl/projects/webchat_2.0/client/router.cpp"
+}
+]
