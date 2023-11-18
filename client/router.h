@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <memory>
 
 #define BUF_SIZE 1024
 #define PORT 1666

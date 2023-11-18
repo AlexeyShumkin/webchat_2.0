@@ -1,6 +1,5 @@
 #pragma once
-#include "models.h"
-#include "router.h"
+#include "states.h"
 
 class ClientController
 {
@@ -8,11 +7,12 @@ public:
     ClientController();
     ~ClientController();
     void run();
-    bool request(const std::string& command);
-    void sign();
+    void request();
 private:
+    friend class State;
+    void setState(std::unique_ptr<State>& state);
     bool active_{ true };
-    std::unique_ptr<User> user_;
     std::unique_ptr<Router> router_;
+    std::shared_ptr<State> state_;
     DTO dto_;
 };

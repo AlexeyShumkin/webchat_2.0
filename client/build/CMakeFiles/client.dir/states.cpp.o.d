@@ -1,6 +1,7 @@
-CMakeFiles/client.dir/router.cpp.o: \
- /home/awl/projects/webchat_2.0/client/router.cpp \
+CMakeFiles/client.dir/states.cpp.o: \
+ /home/awl/projects/webchat_2.0/client/states.cpp \
  /usr/include/stdc-predef.h \
+ /home/awl/projects/webchat_2.0/client/states.h \
  /home/awl/projects/webchat_2.0/client/router.h /usr/include/unistd.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -196,4 +197,6 @@ CMakeFiles/client.dir/router.cpp.o: \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
- /usr/include/c++/11/pstl/execution_defs.h
+ /usr/include/c++/11/pstl/execution_defs.h \
+ /home/awl/projects/webchat_2.0/client/controllers.h \
+ /home/awl/projects/webchat_2.0/client/models.h

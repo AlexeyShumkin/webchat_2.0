@@ -18,5 +18,10 @@
   "directory": "/home/awl/projects/webchat_2.0/client/build",
   "command": "/usr/bin/g++   -g -o CMakeFiles/client.dir/router.cpp.o -c /home/awl/projects/webchat_2.0/client/router.cpp",
   "file": "/home/awl/projects/webchat_2.0/client/router.cpp"
+},
+{
+  "directory": "/home/awl/projects/webchat_2.0/client/build",
+  "command": "/usr/bin/g++   -g -o CMakeFiles/client.dir/states.cpp.o -c /home/awl/projects/webchat_2.0/client/states.cpp",
+  "file": "/home/awl/projects/webchat_2.0/client/states.cpp"
 }
 ]
