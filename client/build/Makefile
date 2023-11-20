@@ -571,30 +571,6 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-models.o: models.cpp.o
-.PHONY : models.o
-
-# target to build an object file
-models.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/models.cpp.o
-.PHONY : models.cpp.o
-
-models.i: models.cpp.i
-.PHONY : models.i
-
-# target to preprocess a source file
-models.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/models.cpp.i
-.PHONY : models.cpp.i
-
-models.s: models.cpp.s
-.PHONY : models.s
-
-# target to generate assembly for a file
-models.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/models.cpp.s
-.PHONY : models.cpp.s
-
 router.o: router.cpp.o
 .PHONY : router.o
 
@@ -689,9 +665,6 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... models.o"
-	@echo "... models.i"
-	@echo "... models.s"
 	@echo "... router.o"
 	@echo "... router.i"
 	@echo "... router.s"

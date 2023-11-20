@@ -4,6 +4,7 @@
 class Handler
 {
 public:
+    virtual ~Handler() = default;
     virtual bool specHandle(DTO& dto) = 0;
 protected:
     size_t makeDialogID(const std::string& sender, const std::string& recipient);

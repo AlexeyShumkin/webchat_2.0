@@ -6,11 +6,6 @@
 },
 {
   "directory": "/home/awl/projects/webchat_2.0/client/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/client.dir/models.cpp.o -c /home/awl/projects/webchat_2.0/client/models.cpp",
-  "file": "/home/awl/projects/webchat_2.0/client/models.cpp"
-},
-{
-  "directory": "/home/awl/projects/webchat_2.0/client/build",
   "command": "/usr/bin/g++   -g -o CMakeFiles/client.dir/controllers.cpp.o -c /home/awl/projects/webchat_2.0/client/controllers.cpp",
   "file": "/home/awl/projects/webchat_2.0/client/controllers.cpp"
 },

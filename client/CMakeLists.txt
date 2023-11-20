@@ -4,7 +4,7 @@ project(client VERSION 0.1.0 LANGUAGES C CXX)
 include(CTest)
 enable_testing()
 
-add_executable(client main.cpp models.cpp controllers.cpp router.cpp states.cpp)
+add_executable(client main.cpp controllers.cpp router.cpp states.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

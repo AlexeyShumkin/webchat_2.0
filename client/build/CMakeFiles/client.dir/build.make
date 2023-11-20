@@ -83,24 +83,10 @@ CMakeFiles/client.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/main.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/awl/projects/webchat_2.0/client/main.cpp -o CMakeFiles/client.dir/main.cpp.s
 
-CMakeFiles/client.dir/models.cpp.o: CMakeFiles/client.dir/flags.make
-CMakeFiles/client.dir/models.cpp.o: ../models.cpp
-CMakeFiles/client.dir/models.cpp.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/models.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/client.dir/models.cpp.o -MF CMakeFiles/client.dir/models.cpp.o.d -o CMakeFiles/client.dir/models.cpp.o -c /home/awl/projects/webchat_2.0/client/models.cpp
-
-CMakeFiles/client.dir/models.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/models.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/awl/projects/webchat_2.0/client/models.cpp > CMakeFiles/client.dir/models.cpp.i
-
-CMakeFiles/client.dir/models.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/models.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/awl/projects/webchat_2.0/client/models.cpp -o CMakeFiles/client.dir/models.cpp.s
-
 CMakeFiles/client.dir/controllers.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/controllers.cpp.o: ../controllers.cpp
 CMakeFiles/client.dir/controllers.cpp.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/client.dir/controllers.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/controllers.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/client.dir/controllers.cpp.o -MF CMakeFiles/client.dir/controllers.cpp.o.d -o CMakeFiles/client.dir/controllers.cpp.o -c /home/awl/projects/webchat_2.0/client/controllers.cpp
 
 CMakeFiles/client.dir/controllers.cpp.i: cmake_force
@@ -114,7 +100,7 @@ CMakeFiles/client.dir/controllers.cpp.s: cmake_force
 CMakeFiles/client.dir/router.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/router.cpp.o: ../router.cpp
 CMakeFiles/client.dir/router.cpp.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/client.dir/router.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/client.dir/router.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/client.dir/router.cpp.o -MF CMakeFiles/client.dir/router.cpp.o.d -o CMakeFiles/client.dir/router.cpp.o -c /home/awl/projects/webchat_2.0/client/router.cpp
 
 CMakeFiles/client.dir/router.cpp.i: cmake_force
@@ -128,7 +114,7 @@ CMakeFiles/client.dir/router.cpp.s: cmake_force
 CMakeFiles/client.dir/states.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/states.cpp.o: ../states.cpp
 CMakeFiles/client.dir/states.cpp.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/client.dir/states.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/client.dir/states.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/client.dir/states.cpp.o -MF CMakeFiles/client.dir/states.cpp.o.d -o CMakeFiles/client.dir/states.cpp.o -c /home/awl/projects/webchat_2.0/client/states.cpp
 
 CMakeFiles/client.dir/states.cpp.i: cmake_force
@@ -142,7 +128,6 @@ CMakeFiles/client.dir/states.cpp.s: cmake_force
 # Object files for target client
 client_OBJECTS = \
 "CMakeFiles/client.dir/main.cpp.o" \
-"CMakeFiles/client.dir/models.cpp.o" \
 "CMakeFiles/client.dir/controllers.cpp.o" \
 "CMakeFiles/client.dir/router.cpp.o" \
 "CMakeFiles/client.dir/states.cpp.o"
@@ -151,13 +136,12 @@ client_OBJECTS = \
 client_EXTERNAL_OBJECTS =
 
 client: CMakeFiles/client.dir/main.cpp.o
-client: CMakeFiles/client.dir/models.cpp.o
 client: CMakeFiles/client.dir/controllers.cpp.o
 client: CMakeFiles/client.dir/router.cpp.o
 client: CMakeFiles/client.dir/states.cpp.o
 client: CMakeFiles/client.dir/build.make
 client: CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/awl/projects/webchat_2.0/client/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

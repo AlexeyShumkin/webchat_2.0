@@ -1,6 +1,5 @@
 #include "states.h"
 #include "controllers.h"
-#include "models.h"
 
 void State::setState(ClientController* cc, std::unique_ptr<State>&& state)
 {
@@ -16,7 +15,6 @@ void State::exit(ClientController* cc)
 {
     cc->active_ = false;
 }
-
 
 void SignControl::request(ClientController* cc)
 {

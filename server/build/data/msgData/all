@@ -2,3 +2,7 @@ zero -> all [ hello! ] 14:38:45 20/11/2023
 zero -> all [ another test message ] 14:39:16 20/11/2023
 zero -> all [ does it work?! ] 14:58:04 20/11/2023
 one -> all [ very cool! ] 14:59:18 20/11/2023
+test -> all [ test message ] 16:37:58 20/11/2023
+new -> all [ hi, all ] 16:47:40 20/11/2023
+new -> all [ it's work! ] 16:48:15 20/11/2023
+zero -> all [ done ] 16:51:26 20/11/2023
