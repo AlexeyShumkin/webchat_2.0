@@ -65,7 +65,7 @@ bool PubPostHandler::specHandle(DTO& dto)
     out.open(Server::msgDataPath_ / dto[1], std::fstream::app);
     if(out.is_open())
     {
-        out << dto[0] << " -> all |  " << dto[2] << "  | " << dto[3] << '\n';
+        out << dto[0] << " -> all [ " << dto[2] << " ] " << dto[3] << '\n';
         out.close();
         return true;
     }
@@ -81,4 +81,9 @@ bool PubReadHandler::specHandle(DTO& dto)
 	for (std::string line; std::getline(in, line);) 
     	dto.push_back(line);
     return true;
+}
+
+bool FindUserHandler::specHandle(DTO& dto)
+{
+    return fs::exists(Server::userDataPath_ / dto[0]);
 }

@@ -33,3 +33,9 @@ class PubReadHandler : public Handler
 public:
     bool specHandle(DTO& dto) override;
 };
+
+class FindUserHandler : public Handler
+{
+public:
+    bool specHandle(DTO& dto) override;
+};

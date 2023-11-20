@@ -37,6 +37,9 @@ void ServerController::run()
             case ServerController::READ:
                 server_->setHandler(std::make_unique<PubReadHandler>(PubReadHandler()));
                 respond();
+            case ServerController::FIND:
+                server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
+                respond();
             }
         }
         else
@@ -49,8 +52,6 @@ void ServerController::run()
 
 void ServerController::respond()
 {
-    // dto_.clear();
-    // dto_.push_back("1");
     router_->passDTO(dto_);
     router_->takeDTO(dto_);
     if(server_->handle(dto_))

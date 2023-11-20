@@ -37,7 +37,7 @@ void SignControl::request(ClientController* cc)
         if(cc->send(dto_, "2"))
         {
             std::cout << "Welcome to the chat room!\n";
-            setState(cc, std::make_unique<RoomControl>(RoomControl(dto_[0])));
+            setState(cc, std::make_unique<PubRoomControl>(PubRoomControl(dto_[0])));
         }
         else
             std::cout << "Invalid login or password!\n";
@@ -63,13 +63,13 @@ void SignControl::sign()
     dto_.push_back(password);
 }
 
-RoomControl::RoomControl(const std::string& sender)
+PubRoomControl::PubRoomControl(const std::string& sender)
 {
     dto_.push_back(sender);
-    dto_.push_back("all");
+    dto_.push_back(recipient_);
 }
 
-void RoomControl::request(ClientController* cc)
+void PubRoomControl::request(ClientController* cc)
 {
     while(dto_.size() > 2)
         dto_.pop_back();
@@ -92,6 +92,10 @@ void RoomControl::request(ClientController* cc)
     case '2':
         read(cc);
         break;
+    case '3':
+        if(setRecipient(cc))
+            setState(cc, std::make_unique<PvtRoomControl>(PvtRoomControl(dto_[0], recipient_)));
+        break;
     case '5':
         std::cout << "User " << dto_[0] << " left the chat room.\n";
         setState(cc, std::make_unique<SignControl>(SignControl()));
@@ -104,7 +108,7 @@ void RoomControl::request(ClientController* cc)
     }
 }
 
-bool RoomControl::post()
+bool PubRoomControl::post()
 {
     std::string text;
 	std::cout << "Message: ";
@@ -116,7 +120,7 @@ bool RoomControl::post()
     return true;
 }
 
-std::string RoomControl::getCurrentTime()
+std::string PubRoomControl::getCurrentTime()
 {
     time_t now = time(nullptr);
 	char buffer[20];
@@ -124,7 +128,7 @@ std::string RoomControl::getCurrentTime()
 	return buffer;
 }
 
-void RoomControl::read(ClientController* cc)
+void PubRoomControl::read(ClientController* cc)
 {
     DTO dto{ recipient_ };
     std::string command{"4"};
@@ -137,7 +141,54 @@ void RoomControl::read(ClientController* cc)
     }
 }
 
-void DialogControl::request(ClientController* cc)
+bool PubRoomControl::setRecipient(ClientController* cc)
 {
+    std::string recipient;
+    std::cout << "Enter the recipient login: ";
+	std::cin >> recipient;
+    if(recipient == dto_[0])
+    {
+        std::cout << "The developer still believes that users should not send messages to themselves :)\n";
+        return false;
+    }
+    DTO dto{ recipient };
+    if(!cc->send(dto, "5"))
+    {
+        std::cout << "There is no user with this login in the chat room!\n";
+        return false;
+    }
+    else
+        recipient_ = recipient;
+    return true;
+}
 
+PvtRoomControl::PvtRoomControl(const std::string& sender, const std::string& recipient)
+{
+    dto_.push_back(sender);
+    recipient_ = recipient;
+    dto_.push_back(recipient_);
+}
+
+void PvtRoomControl::request(ClientController* cc)
+{
+    while(dto_.size() > 2)
+        dto_.pop_back();
+    char action = '0';
+    std::cout << "Send message(1), read conversation(2), back chat(3), exit(q): ";
+    std::cin >> action;
+     switch(action)
+    {
+    case '1':
+        break;
+    case '2':
+        break;
+    case '3':
+        setState(cc, std::make_unique<PubRoomControl>(PubRoomControl(dto_[0])));
+        break;
+    case 'q':
+        exit(cc);
+        break;
+    default:
+        std::cout << "Your command is unclear. Please, select an action from the list:\n";
+    }
 }

@@ -22,20 +22,23 @@ public:
     void sign();
 };
 
-class RoomControl : public State
+class PubRoomControl : public State
 {
 public:
-    RoomControl(const std::string& sender);
+    PubRoomControl() = default;
+    PubRoomControl(const std::string& sender);
     void request(ClientController* cc) override;
     bool post();
     std::string getCurrentTime();
     void read(ClientController* cc);
+    bool setRecipient(ClientController* cc);
 protected:
     std::string recipient_{"all"};
 };
 
-class DialogControl : public RoomControl
+class PvtRoomControl : public PubRoomControl
 {
 public:
+    PvtRoomControl(const std::string& sender, const std::string& recipient);
     void request(ClientController* cc) override;
 };
