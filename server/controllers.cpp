@@ -24,12 +24,19 @@ void ServerController::run()
             {
             case ServerController::SIGNUP:
                 server_->setHandler(std::make_unique<SignUpHandler>(SignUpHandler()));
-                signRespond();
+                respond();
                 break;
             case ServerController::SIGNIN:
                 server_->setHandler(std::make_unique<SignInHandler>(SignInHandler()));
-                signRespond();
+                respond();
                 break;
+            case ServerController::POST:
+                server_->setHandler(std::make_unique<PubPostHandler>(PubPostHandler()));
+                respond();
+                break;
+            case ServerController::READ:
+                server_->setHandler(std::make_unique<PubReadHandler>(PubReadHandler()));
+                respond();
             }
         }
         else
@@ -40,10 +47,10 @@ void ServerController::run()
     }
 }
 
-void ServerController::signRespond()
+void ServerController::respond()
 {
-    dto_.clear();
-    dto_.push_back("Enter your data");
+    // dto_.clear();
+    // dto_.push_back("1");
     router_->passDTO(dto_);
     router_->takeDTO(dto_);
     if(server_->handle(dto_))

@@ -7,8 +7,8 @@ public:
     ServerController();
     ~ServerController();
     void run();
-    void signRespond();
-    enum Commands { SIGNUP = 1, SIGNIN };
+    void respond();
+    enum Commands { SIGNUP = 1, SIGNIN, POST, READ };
 private:
     bool active_{ true };
     std::unique_ptr<Router> router_;

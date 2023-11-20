@@ -9,8 +9,3 @@ int User::getID() const
 {
     return id_;
 }
-
-std::ostream& operator<<(std::ostream& os, const User& user)
-{
-    return os << user.login_ << ' ' << user.password_ << std::endl;
-}
