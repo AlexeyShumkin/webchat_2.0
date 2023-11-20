@@ -31,16 +31,19 @@ void ServerController::run()
                 respond();
                 break;
             case ServerController::POST:
-                server_->setHandler(std::make_unique<PubPostHandler>(PubPostHandler()));
+                server_->setHandler(std::make_unique<PostHandler>(PostHandler()));
                 respond();
                 break;
             case ServerController::READ:
-                server_->setHandler(std::make_unique<PubReadHandler>(PubReadHandler()));
+                server_->setHandler(std::make_unique<ReadHandler>(ReadHandler()));
                 respond();
+                break;
             case ServerController::FIND:
                 server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
                 respond();
+                break;
             }
+            dto_.clear();
         }
         else
         {

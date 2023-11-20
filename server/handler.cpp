@@ -59,24 +59,34 @@ bool SignInHandler::specHandle(DTO& dto)
     return false;
 }
 
-bool PubPostHandler::specHandle(DTO& dto)
+bool PostHandler::specHandle(DTO& dto)
 {
+    std::string room;
+    if(dto[1] == "all")
+        room = dto[1];
+    else
+        room = std::to_string(makeDialogID(dto[0], dto[1]));
     std::ofstream out;
-    out.open(Server::msgDataPath_ / dto[1], std::fstream::app);
+    out.open(Server::msgDataPath_ / room, std::fstream::app);
     if(out.is_open())
     {
-        out << dto[0] << " -> all [ " << dto[2] << " ] " << dto[3] << '\n';
+        out << dto[0] << " -> " << dto[1] << " [ " << dto[2] << " ] " << dto[3] << '\n';
         out.close();
         return true;
     }
     return false;
 }
 
-bool PubReadHandler::specHandle(DTO& dto)
+bool ReadHandler::specHandle(DTO& dto)
 {
-    if(!fs::exists(Server::msgDataPath_ / dto[0]))
+    std::string room;
+    if(dto[1] == "all")
+        room = dto[1];
+    else
+        room = std::to_string(makeDialogID(dto[0], dto[1]));
+    if(!fs::exists(Server::msgDataPath_ / room))
         return false;
-    std::ifstream in(Server::msgDataPath_ / dto[0]);
+    std::ifstream in(Server::msgDataPath_ / room);
     dto.clear();
 	for (std::string line; std::getline(in, line);) 
     	dto.push_back(line);

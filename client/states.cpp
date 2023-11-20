@@ -37,7 +37,7 @@ void SignControl::request(ClientController* cc)
         if(cc->send(dto_, "2"))
         {
             std::cout << "Welcome to the chat room!\n";
-            setState(cc, std::make_unique<PubRoomControl>(PubRoomControl(dto_[0])));
+            setState(cc, std::make_unique<RoomControl>(RoomControl(dto_[0])));
         }
         else
             std::cout << "Invalid login or password!\n";
@@ -63,25 +63,23 @@ void SignControl::sign()
     dto_.push_back(password);
 }
 
-PubRoomControl::PubRoomControl(const std::string& sender)
+RoomControl::RoomControl(const std::string& sender)
 {
     dto_.push_back(sender);
     dto_.push_back(recipient_);
 }
 
-void PubRoomControl::request(ClientController* cc)
+void RoomControl::request(ClientController* cc)
 {
     while(dto_.size() > 2)
         dto_.pop_back();
     char action = '0';
-    std::cout << "Send message(1), read chat(2), dialog(3), display users(4), sign out(5), exit(q): ";
+    std::cout << "Send message(1), read conversation(2), change room(3), display users(4), sign out(5), exit(q): ";
     std::cin >> action;
     switch(action)
     {
     case '1':
-        if(!post())
-            std::cout << "You can't send an empty message!\n";
-        else
+        if(post())
         {
             if(!cc->send(dto_, "3"))
                 std::cout << "Failed dispatch!\n";
@@ -93,8 +91,9 @@ void PubRoomControl::request(ClientController* cc)
         read(cc);
         break;
     case '3':
-        if(setRecipient(cc))
-            setState(cc, std::make_unique<PvtRoomControl>(PvtRoomControl(dto_[0], recipient_)));
+        setRecipient(cc);
+        if(recipient_ != "all")
+            std::cout << "To send messages to the general chat, specify the recipient <all>\n";
         break;
     case '5':
         std::cout << "User " << dto_[0] << " left the chat room.\n";
@@ -108,19 +107,19 @@ void PubRoomControl::request(ClientController* cc)
     }
 }
 
-bool PubRoomControl::post()
+bool RoomControl::post()
 {
     std::string text;
 	std::cout << "Message: ";
 	std::getline(std::cin.ignore(), text);
     if(text.empty())
-        return false;
+        std::cout << "You can't send an empty message!\n";
     dto_.push_back(text);
     dto_.push_back(getCurrentTime());
-    return true;
+    return !text.empty();
 }
 
-std::string PubRoomControl::getCurrentTime()
+std::string RoomControl::getCurrentTime()
 {
     time_t now = time(nullptr);
 	char buffer[20];
@@ -128,9 +127,9 @@ std::string PubRoomControl::getCurrentTime()
 	return buffer;
 }
 
-void PubRoomControl::read(ClientController* cc)
+void RoomControl::read(ClientController* cc)
 {
-    DTO dto{ recipient_ };
+    DTO dto{ dto_[0], recipient_ };
     std::string command{"4"};
     if(!cc->send(dto, command))
         std::cout << "There are no messages in the chat room yet!\n";
@@ -141,7 +140,7 @@ void PubRoomControl::read(ClientController* cc)
     }
 }
 
-bool PubRoomControl::setRecipient(ClientController* cc)
+void RoomControl::setRecipient(ClientController* cc)
 {
     std::string recipient;
     std::cout << "Enter the recipient login: ";
@@ -149,46 +148,14 @@ bool PubRoomControl::setRecipient(ClientController* cc)
     if(recipient == dto_[0])
     {
         std::cout << "The developer still believes that users should not send messages to themselves :)\n";
-        return false;
+        return;
     }
     DTO dto{ recipient };
-    if(!cc->send(dto, "5"))
+    if(!cc->send(dto, "5") && recipient != "all")
     {
         std::cout << "There is no user with this login in the chat room!\n";
-        return false;
+        return;
     }
-    else
-        recipient_ = recipient;
-    return true;
-}
-
-PvtRoomControl::PvtRoomControl(const std::string& sender, const std::string& recipient)
-{
-    dto_.push_back(sender);
     recipient_ = recipient;
-    dto_.push_back(recipient_);
-}
-
-void PvtRoomControl::request(ClientController* cc)
-{
-    while(dto_.size() > 2)
-        dto_.pop_back();
-    char action = '0';
-    std::cout << "Send message(1), read conversation(2), back chat(3), exit(q): ";
-    std::cin >> action;
-     switch(action)
-    {
-    case '1':
-        break;
-    case '2':
-        break;
-    case '3':
-        setState(cc, std::make_unique<PubRoomControl>(PubRoomControl(dto_[0])));
-        break;
-    case 'q':
-        exit(cc);
-        break;
-    default:
-        std::cout << "Your command is unclear. Please, select an action from the list:\n";
-    }
+    dto_[1] = recipient_;
 }

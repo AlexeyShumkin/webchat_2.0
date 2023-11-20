@@ -22,13 +22,13 @@ public:
     bool specHandle(DTO& dto) override;
 };
 
-class PubPostHandler : public Handler
+class PostHandler : public Handler
 {
 public:
     bool specHandle(DTO& dto) override;
 };
 
-class PubReadHandler : public Handler
+class ReadHandler : public Handler
 {
 public:
     bool specHandle(DTO& dto) override;
