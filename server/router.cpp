@@ -33,9 +33,14 @@ bool Router::establish()
     return true;
 }
 
-const int Router::getSocketFD() const
+int Router::getSocketFD() const
 {
     return socket_file_descriptor;
+}
+
+int Router::getConnection() const
+{
+    return connection;
 }
 
 void Router::passDTO(DTO& dto)

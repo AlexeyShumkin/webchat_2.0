@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/awl/projects/webchat_2.0/server/main.cpp" "CMakeFiles/server.dir/main.cpp.o" "gcc" "CMakeFiles/server.dir/main.cpp.o.d"
   "/home/awl/projects/webchat_2.0/server/models.cpp" "CMakeFiles/server.dir/models.cpp.o" "gcc" "CMakeFiles/server.dir/models.cpp.o.d"
   "/home/awl/projects/webchat_2.0/server/router.cpp" "CMakeFiles/server.dir/router.cpp.o" "gcc" "CMakeFiles/server.dir/router.cpp.o.d"
+  "/home/awl/projects/webchat_2.0/server/states.cpp" "CMakeFiles/server.dir/states.cpp.o" "gcc" "CMakeFiles/server.dir/states.cpp.o.d"
   )
 
 # Targets to which this target links.

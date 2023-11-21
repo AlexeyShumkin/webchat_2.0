@@ -15,7 +15,8 @@ class Router
 {
 public:
     bool establish();
-    const int getSocketFD() const;
+    int getSocketFD() const;
+    int getConnection() const;
     void passDTO(DTO& dto);
     void takeDTO(DTO& dto);
 private:

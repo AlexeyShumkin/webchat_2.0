@@ -1,5 +1,4 @@
 #include "states.h"
-#include "controllers.h"
 
 void State::setState(ClientController* cc, std::unique_ptr<State>&& state)
 {
@@ -20,14 +19,14 @@ void SignControl::request(ClientController* cc)
     {
     case '1':
         sign();
-        if(cc->send(dto_, "1"))
+        if(cc->send(dto_, 1))
             std::cout << "Registration was successful!\n";
         else
             std::cout << "This login is already taken!\n";
         break;
     case '2':
         sign();
-        if(cc->send(dto_, "2"))
+        if(cc->send(dto_, 2))
         {
             std::cout << "Welcome to the chat room!\n";
             setState(cc, std::make_unique<RoomControl>(RoomControl(dto_[0])));
@@ -74,7 +73,7 @@ void RoomControl::request(ClientController* cc)
     case '1':
         if(post())
         {
-            if(!cc->send(dto_, "3"))
+            if(!cc->send(dto_, 3))
                 std::cout << "Failed dispatch!\n";
             else
                 std::cout << "Successful dispatch!\n";
@@ -123,8 +122,7 @@ std::string RoomControl::getCurrentTime()
 void RoomControl::read(ClientController* cc)
 {
     DTO dto{ dto_[0], recipient_ };
-    std::string command{"4"};
-    if(!cc->send(dto, command))
+    if(!cc->send(dto, 4))
         std::cout << "There are no messages in the chat room yet!\n";
     else
     {
@@ -144,7 +142,7 @@ void RoomControl::setRecipient(ClientController* cc)
         return;
     }
     DTO dto{ recipient };
-    if(!cc->send(dto, "5") && recipient != "all")
+    if(!cc->send(dto, 5) && recipient != "all")
     {
         std::cout << "There is no user with this login in the chat room!\n";
         return;

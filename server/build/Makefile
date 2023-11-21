@@ -643,6 +643,30 @@ router.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/router.cpp.s
 .PHONY : router.cpp.s
 
+states.o: states.cpp.o
+.PHONY : states.o
+
+# target to build an object file
+states.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/states.cpp.o
+.PHONY : states.cpp.o
+
+states.i: states.cpp.i
+.PHONY : states.i
+
+# target to preprocess a source file
+states.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/states.cpp.i
+.PHONY : states.cpp.i
+
+states.s: states.cpp.s
+.PHONY : states.s
+
+# target to generate assembly for a file
+states.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/states.cpp.s
+.PHONY : states.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -698,6 +722,9 @@ help:
 	@echo "... router.o"
 	@echo "... router.i"
 	@echo "... router.s"
+	@echo "... states.o"
+	@echo "... states.i"
+	@echo "... states.s"
 .PHONY : help
 
 
