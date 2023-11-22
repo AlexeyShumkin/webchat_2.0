@@ -18,5 +18,7 @@ int main()
       ClientController cc;
       cc.run();
    }
+   // ServerController sc;
+   // sc.run();
 }
 

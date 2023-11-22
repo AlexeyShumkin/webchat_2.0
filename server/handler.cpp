@@ -97,3 +97,18 @@ bool FindUserHandler::specHandle(DTO& dto)
 {
     return fs::exists(Server::userDataPath_ / dto[0]);
 }
+
+bool UserDisplayHandler::specHandle(DTO& dto)
+{
+    fs::path path;
+	int number = 1;
+    dto.clear();
+    for (const auto& entry : fs::directory_iterator(Server::userDataPath_))
+    {
+		path = entry;
+		auto user = path.generic_string();
+		user = user.substr(14);
+		dto.push_back(user);
+	}
+    return true;
+}

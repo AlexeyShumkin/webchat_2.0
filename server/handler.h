@@ -40,3 +40,9 @@ class FindUserHandler : public Handler
 public:
     bool specHandle(DTO& dto) override;
 };
+
+class UserDisplayHandler : public Handler
+{
+public:
+    bool specHandle(DTO& dto) override;
+};

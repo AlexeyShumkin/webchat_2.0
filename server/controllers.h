@@ -11,7 +11,7 @@ public:
     void run();
     void request();
     bool send(DTO& dto, int command);
-    enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND };
+    enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS };
 private:
     friend class State;
     bool active_{ true };
@@ -27,7 +27,7 @@ public:
     ~ServerController();
     void run();
     void respond();
-    enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND };
+    enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS };
     static bool active_;
 private:
     std::unique_ptr<Router> router_;

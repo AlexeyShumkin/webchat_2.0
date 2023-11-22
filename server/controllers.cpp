@@ -37,6 +37,8 @@ void ServerController::run()
             case ServerController::FIND:
                 server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
                 break;
+            case ServerController::USERS:
+                server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
             }
             respond();
         }
@@ -102,6 +104,9 @@ bool ClientController::send(DTO& dto, int command)
         break;
     case ClientController::FIND:
         server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
+        break;
+    case ClientController::USERS:
+        server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
         break;
     }
     return server_->handle(dto);

@@ -29,7 +29,7 @@ public:
     void request(ClientController* cc) override;
     bool post();
     std::string getCurrentTime();
-    void read(ClientController* cc);
+    void read(ClientController* cc, int command);
     void setRecipient(ClientController* cc);
 protected:
     std::string recipient_{"all"};

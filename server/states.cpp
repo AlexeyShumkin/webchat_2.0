@@ -80,12 +80,15 @@ void RoomControl::request(ClientController* cc)
         }
         break;
     case '2':
-        read(cc);
+        read(cc, 4);
         break;
     case '3':
         setRecipient(cc);
         if(recipient_ != "all")
             std::cout << "To send messages to the general chat, specify the recipient <all>\n";
+        break;
+    case '4':
+        read(cc, 6);
         break;
     case '5':
         std::cout << "User " << dto_[0] << " left the chat room.\n";
@@ -119,15 +122,28 @@ std::string RoomControl::getCurrentTime()
 	return buffer;
 }
 
-void RoomControl::read(ClientController* cc)
+void RoomControl::read(ClientController* cc, int command)
 {
-    DTO dto{ dto_[0], recipient_ };
-    if(!cc->send(dto, 4))
-        std::cout << "There are no messages in the chat room yet!\n";
-    else
+    DTO dto;
+    if(command == 4)
     {
+        dto.push_back(dto_[0]);
+        dto.push_back(recipient_);
+        if(!cc->send(dto, command))
+            std::cout << "There are no messages in this room yet!\n";
+        else
+        {
+            for(const auto& data : dto)
+                std::cout << data << '\n';
+        }
+    }
+    else if(command == 6)
+    {
+        cc->send(dto, command);
+        int number = 1;
+	    std::cout << "Now in chat room:\n";
         for(const auto& data : dto)
-            std::cout << data << '\n';
+            std::cout << number++ << ") " << data << '\n';
     }
 }
 

@@ -24,12 +24,11 @@ public:
 class RoomControl : public State
 {
 public:
-    RoomControl() = default;
     RoomControl(const std::string& sender);
     void request(ClientController* cc) override;
     bool post();
     std::string getCurrentTime();
-    void read(ClientController* cc);
+    void read(ClientController* cc, const std::string& command);
     void setRecipient(ClientController* cc);
 protected:
     std::string recipient_{"all"};
