@@ -116,4 +116,3 @@ void ClientController::setState(std::unique_ptr<State>& state)
 {
     state_ = move(state);
 }
-

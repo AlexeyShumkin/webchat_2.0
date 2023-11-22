@@ -51,4 +51,3 @@ void Router::takeDTO(DTO& dto)
         dto.push_back(tmp);
     }
 }
-

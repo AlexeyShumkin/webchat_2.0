@@ -7,18 +7,13 @@ bool ServerController::active_{ true };
 
 int main()
 {
+   ServerController sc;
    int pid = fork();
-   if(pid > 0)
-   {
-      ServerController sc;
+   if(pid)
       sc.run();
-   }
-   else if(pid == 0)
+   else if(!pid)
    {
       ClientController cc;
       cc.run();
    }
-   // ServerController sc;
-   // sc.run();
 }
-
