@@ -19,26 +19,7 @@ void ServerController::run()
     while(active_)
     {
         int command = router_->take();
-        switch(command)
-        {
-        case ServerController::SIGNUP:
-            server_->setHandler(std::make_unique<SignUpHandler>(SignUpHandler()));
-            break;
-        case ServerController::SIGNIN:
-            server_->setHandler(std::make_unique<SignInHandler>(SignInHandler()));
-            break;
-        case ServerController::POST:
-            server_->setHandler(std::make_unique<PostHandler>(PostHandler()));
-            break;
-        case ServerController::READ:
-            server_->setHandler(std::make_unique<ReadHandler>(ReadHandler()));
-            break;
-        case ServerController::FIND:
-            server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
-            break;
-        case ServerController::USERS:
-            server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
-        }
+        setHandler(command);
         respond(dto, command);
     }
     std::cout << "Session end.\n";
@@ -55,6 +36,31 @@ void ServerController::respond(DTO& dto, int command)
     }
     else
         router_->pass('0');
+}
+
+void ServerController::setHandler(int command)
+{
+    switch(command)
+    {
+    case ServerController::SIGNUP:
+        server_->setHandler(std::make_unique<SignUpHandler>(SignUpHandler()));
+        break;
+    case ServerController::SIGNIN:
+        server_->setHandler(std::make_unique<SignInHandler>(SignInHandler()));
+        break;
+    case ServerController::POST:
+        server_->setHandler(std::make_unique<PostHandler>(PostHandler()));
+        break;
+    case ServerController::READ:
+        server_->setHandler(std::make_unique<ReadHandler>(ReadHandler()));
+        break;
+    case ServerController::FIND:
+        server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
+        break;
+    case ServerController::USERS:
+        server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
+        break;
+    }
 }
 
 ClientController::ClientController()
@@ -83,27 +89,7 @@ void ClientController::request()
 
 bool ClientController::send(DTO& dto, int command)
 {
-    switch(command)
-    {
-    case ClientController::SIGNUP:
-        server_->setHandler(std::make_unique<SignUpHandler>(SignUpHandler()));
-        break;
-    case ClientController::SIGNIN:
-        server_->setHandler(std::make_unique<SignInHandler>(SignInHandler()));
-        break;
-    case ClientController::POST:
-        server_->setHandler(std::make_unique<PostHandler>(PostHandler()));
-        break;
-    case ClientController::READ:
-        server_->setHandler(std::make_unique<ReadHandler>(ReadHandler()));
-        break;
-    case ClientController::FIND:
-        server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
-        break;
-    case ClientController::USERS:
-        server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
-        break;
-    }
+    setHandler(command);
     return server_->handle(dto);
 }
 

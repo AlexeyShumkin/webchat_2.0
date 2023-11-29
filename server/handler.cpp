@@ -100,14 +100,14 @@ bool FindUserHandler::specHandle(DTO& dto)
 
 bool UserDisplayHandler::specHandle(DTO& dto)
 {
+    auto offName = Server::userDataPath_.c_str();
     fs::path path;
-	int number = 1;
     dto.clear();
     for (const auto& entry : fs::directory_iterator(Server::userDataPath_))
     {
 		path = entry;
 		auto user = path.generic_string();
-		user = user.substr(14);
+		user = user.substr(strlen(offName) + 1);
 		dto.push_back(user);
 	}
     return true;
