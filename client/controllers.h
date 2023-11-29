@@ -10,6 +10,7 @@ public:
     void request();
     bool send(char command);
     bool send(const DTO& dto);
+    void take(DTO& dto);
 private:
     friend class State;
     void setState(std::unique_ptr<State>& state);

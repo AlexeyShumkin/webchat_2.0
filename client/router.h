@@ -7,6 +7,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <cmath>
 
 #define BUF_SIZE 5
 #define PORT 1666
@@ -19,6 +20,7 @@ public:
     const int getSocketFD() const;
     bool pass(char command);
     bool pass(const DTO& dto);
+    void take(DTO& dto);
 private:
     struct sockaddr_in serveraddress, client;
     int socket_file_descriptor, connection;

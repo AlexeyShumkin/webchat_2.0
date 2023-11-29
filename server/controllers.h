@@ -26,7 +26,7 @@ public:
     ServerController();
     ~ServerController();
     void run();
-    void respond(DTO& dto);
+    void respond(DTO& dto, int command);
     enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS };
     static bool active_;
 private:

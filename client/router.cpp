@@ -57,4 +57,26 @@ bool Router::pass(const DTO& dto)
     return buffer[0] == '1';
 }
 
-
+void Router::take(DTO& dto)
+{
+    dto.clear();
+    while(true)
+    {
+        bzero(buffer, BUF_SIZE);
+        read(socket_file_descriptor, buffer, sizeof(buffer));
+        if(!strcmp("end", buffer))
+            break;
+        int digit = strlen(buffer);
+        size_t size = 1;
+        for(int i = 0; i < strlen(buffer); ++i)
+            size += (buffer[i] - '0') * pow(10, --digit);
+        bzero(buffer, BUF_SIZE);
+        buffer[0] = '1';
+        write(socket_file_descriptor, buffer, sizeof(buffer));
+        char* tmp = new char[size];
+        read(socket_file_descriptor, tmp, size);
+        dto.push_back(tmp);
+        delete[] tmp;
+        write(socket_file_descriptor, buffer, sizeof(buffer));
+    }
+}

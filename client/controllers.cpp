@@ -35,6 +35,11 @@ bool ClientController::send(const DTO& dto)
     return router_->pass(dto);
 }
 
+void ClientController::take(DTO& dto)
+{
+    router_->take(dto);
+}
+
 void ClientController::setState(std::unique_ptr<State>& state)
 {
     state_ = move(state);

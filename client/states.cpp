@@ -87,7 +87,7 @@ void RoomControl::request(ClientController* cc)
         }
         break;
     case '2':
-        read(cc, "4");
+        read(cc, '4');
         break;
     case '3':
         setRecipient(cc);
@@ -95,7 +95,7 @@ void RoomControl::request(ClientController* cc)
             std::cout << "To send messages to the general chat, specify the recipient <all>\n";
         break;
     case '4':
-        read(cc, "6");
+        read(cc, '6');
         break;
     case '5':
         std::cout << "User " << dto_[0] << " left the chat room.\n";
@@ -132,24 +132,28 @@ std::string RoomControl::getCurrentTime()
 	return buffer;
 }
 
-void RoomControl::read(ClientController* cc, const std::string& command)
+void RoomControl::read(ClientController* cc, char command)
 {
     DTO dto;
-    if(command == "4")
+    if(!cc->send(command))
+        return;
+    if(command == '4')
     {
         dto.push_back(dto_[0]);
         dto.push_back(recipient_);
-        if(1)
+        if(!cc->send(dto))
             std::cout << "There are no messages in this room yet!\n";
         else
         {
+            cc->take(dto);
             for(const auto& data : dto)
                 std::cout << data << '\n';
         }
     }
-    else if(command == "6")
+    else if(command == '6')
     {
-        
+        cc->send(dto);
+        cc->take(dto);
         int number = 1;
 	    std::cout << "Now in chat room:\n";
         for(const auto& data : dto)
@@ -167,8 +171,10 @@ void RoomControl::setRecipient(ClientController* cc)
         std::cout << "The developer still believes that users should not send messages to themselves :)\n";
         return;
     }
+    if(!cc->send('5'))
+        return;
     DTO dto{ recipient };
-    if(recipient != "all")
+    if(!cc->send(dto) && recipient != "all")
     {
         std::cout << "There is no user with this login in the chat room!\n";
         return;

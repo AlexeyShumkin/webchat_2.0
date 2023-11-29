@@ -18,7 +18,8 @@ void ServerController::run()
     DTO dto;
     while(active_)
     {
-        switch(router_->take())
+        int command = router_->take();
+        switch(command)
         {
         case ServerController::SIGNUP:
             server_->setHandler(std::make_unique<SignUpHandler>(SignUpHandler()));
@@ -38,16 +39,20 @@ void ServerController::run()
         case ServerController::USERS:
             server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
         }
-        respond(dto);
+        respond(dto, command);
     }
     std::cout << "Session end.\n";
 }
 
-void ServerController::respond(DTO& dto)
+void ServerController::respond(DTO& dto, int command)
 {
     router_->take(dto);
     if(server_->handle(dto))
+    {
         router_->pass('1');
+        if(command == 4 || command == 6)
+            router_->pass(dto);
+    }
     else
         router_->pass('0');
 }

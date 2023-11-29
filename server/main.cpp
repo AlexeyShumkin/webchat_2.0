@@ -8,7 +8,6 @@ bool ServerController::active_{ true };
 int main()
 {
    ServerController sc;
-   // sc.run();
    int pid = fork();
    if(pid)
       sc.run();

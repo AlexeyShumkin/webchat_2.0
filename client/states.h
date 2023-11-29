@@ -28,7 +28,7 @@ public:
     void request(ClientController* cc) override;
     bool post();
     std::string getCurrentTime();
-    void read(ClientController* cc, const std::string& command);
+    void read(ClientController* cc, char command);
     void setRecipient(ClientController* cc);
 protected:
     std::string recipient_{"all"};
