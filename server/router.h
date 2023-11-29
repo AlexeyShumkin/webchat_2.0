@@ -6,8 +6,9 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <cmath>
 
-#define BUF_SIZE 1024
+#define BUF_SIZE 5
 #define PORT 1666
 using DTO = std::vector<std::string>;
 
@@ -16,9 +17,10 @@ class Router
 public:
     bool establish();
     int getSocketFD() const;
-    int getConnection() const;
-    void passDTO(DTO& dto);
-    void takeDTO(DTO& dto);
+    int take();
+    void take(DTO& dto);
+    void pass(char answer);
+    void pass(const DTO& dto);
 private:
     struct sockaddr_in serveraddress, client;
     socklen_t length;

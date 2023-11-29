@@ -8,7 +8,8 @@ public:
     ~ClientController();
     void run();
     void request();
-    bool send(DTO& dto, const std::string& command);
+    bool send(char command);
+    bool send(const DTO& dto);
 private:
     friend class State;
     void setState(std::unique_ptr<State>& state);

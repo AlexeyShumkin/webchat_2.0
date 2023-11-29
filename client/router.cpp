@@ -25,29 +25,36 @@ const int Router::getSocketFD() const
     return socket_file_descriptor;
 }
 
-void Router::passDTO(DTO& dto)
+bool Router::pass(char command)
 {
     bzero(buffer, BUF_SIZE);
-    int position = 0;
-    for(auto& data : dto)
-    {
-        data += '|';
-        strcpy(buffer + position, data.c_str());
-        position += data.size();
-    }
-    ssize_t bytes = write(socket_file_descriptor, buffer, sizeof(buffer));
-}
-
-void Router::takeDTO(DTO& dto)
-{   
-    dto.clear();
+    buffer[0] = command;
+    write(socket_file_descriptor, buffer, sizeof(buffer));
     bzero(buffer, BUF_SIZE);
     read(socket_file_descriptor, buffer, sizeof(buffer));
-    for(int i = 0; i < strlen(buffer); ++i)
-    {
-        std::string tmp;
-        while(buffer[i] != '|')
-            tmp.push_back(buffer[i++]);
-        dto.push_back(tmp);
-    }
+    return buffer[0] & command;
 }
+
+bool Router::pass(const DTO& dto)
+{
+    for(const auto& data : dto)
+    {
+        auto size = std::to_string(data.size());
+        bzero(buffer, BUF_SIZE);
+        strcpy(buffer, size.c_str());
+        write(socket_file_descriptor, buffer, sizeof(buffer));
+        bzero(buffer, BUF_SIZE);
+        read(socket_file_descriptor, buffer, sizeof(buffer));
+        write(socket_file_descriptor, data.c_str(), data.size() + 1);
+        bzero(buffer, BUF_SIZE);
+        read(socket_file_descriptor, buffer, sizeof(buffer));
+    }
+    bzero(buffer, BUF_SIZE);
+    strcpy(buffer, "end");
+    write(socket_file_descriptor, buffer, sizeof(buffer));
+    bzero(buffer, BUF_SIZE);
+    read(socket_file_descriptor, buffer, sizeof(buffer));
+    return buffer[0] == '1';
+}
+
+

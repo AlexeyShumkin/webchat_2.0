@@ -38,34 +38,60 @@ int Router::getSocketFD() const
     return socket_file_descriptor;
 }
 
-int Router::getConnection() const
+int Router::take()
 {
-    return connection;
-}
-
-void Router::passDTO(DTO& dto)
-{
-    bzero(buffer, BUF_SIZE);
-    int position = 0;
-    for(auto& data : dto)
-    {
-        data += '|';
-        strcpy(buffer + position, data.c_str());
-        position += data.size();
-    }
-    ssize_t bytes = write(connection, buffer, sizeof(buffer));
-}
-
-void Router::takeDTO(DTO& dto)
-{
-    dto.clear();
     bzero(buffer, BUF_SIZE);
     read(connection, buffer, sizeof(buffer));
-    for(int i = 0; i < strlen(buffer); ++i)
+    write(connection, buffer, sizeof(buffer));
+    return buffer[0] - '0';
+}
+
+void Router::take(DTO& dto)
+{
+    dto.clear();
+    while(true)
     {
-        std::string tmp;
-        while(buffer[i] != '|')
-            tmp.push_back(buffer[i++]);
+        bzero(buffer, BUF_SIZE);
+        read(connection, buffer, sizeof(buffer));
+        if(!strcmp("end", buffer))
+            break;
+        int digit = strlen(buffer);
+        size_t size = 1;
+        for(int i = 0; i < strlen(buffer); ++i)
+            size += (buffer[i] - '0') * pow(10, --digit);
+        bzero(buffer, BUF_SIZE);
+        buffer[0] = '1';
+        write(connection, buffer, sizeof(buffer));
+        char* tmp = new char[size];
+        read(connection, tmp, size);
         dto.push_back(tmp);
+        delete[] tmp;
+        write(connection, buffer, sizeof(buffer));
     }
+}
+
+void Router::pass(char answer)
+{
+    bzero(buffer, BUF_SIZE);
+    buffer[0] = answer;
+    write(connection, buffer, sizeof(buffer));
+}
+
+void Router::pass(const DTO& dto)
+{
+    for(const auto& data : dto)
+    {
+        auto size = std::to_string(data.size());
+        bzero(buffer, BUF_SIZE);
+        strcpy(buffer, size.c_str());
+        write(connection, buffer, sizeof(buffer));
+        bzero(buffer, BUF_SIZE);
+        read(connection, buffer, sizeof(buffer));
+        write(connection, data.c_str(), data.size() + 1);
+        bzero(buffer, BUF_SIZE);
+        read(connection, buffer, sizeof(buffer));
+    }
+    bzero(buffer, BUF_SIZE);
+    strcpy(buffer, "end");
+    write(connection, buffer, sizeof(buffer));
 }

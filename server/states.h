@@ -9,7 +9,6 @@ public:
     virtual void request(ClientController* cc) = 0;
 protected:
     void setState(ClientController* cc, std::unique_ptr<State>&& state);
-    const std::unique_ptr<Router>& getRouter(ClientController* cc) const;
     void exit(ClientController* cc);
     DTO dto_;
 };

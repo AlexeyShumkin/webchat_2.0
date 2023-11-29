@@ -19,15 +19,19 @@ void SignControl::request(ClientController* cc)
     switch(action)
     {
     case '1':
+        if(!cc->send(action))
+            break;
         sign();
-        if(cc->send(dto_, "1"))
+        if(cc->send(dto_))
             std::cout << "Registration was successful!\n";
         else
             std::cout << "This login is already taken!\n";
         break;
     case '2':
+        if(!cc->send(action))
+            break;
         sign();
-        if(cc->send(dto_, "2"))
+        if(cc->send(dto_))
         {
             std::cout << "Welcome to the chat room!\n";
             setState(cc, std::make_unique<RoomControl>(RoomControl(dto_[0])));
@@ -74,7 +78,9 @@ void RoomControl::request(ClientController* cc)
     case '1':
         if(post())
         {
-            if(!cc->send(dto_, "3"))
+            if(!cc->send('3'))
+                break;
+            if(!cc->send(dto_))
                 std::cout << "Failed dispatch!\n";
             else
                 std::cout << "Successful dispatch!\n";
@@ -133,7 +139,7 @@ void RoomControl::read(ClientController* cc, const std::string& command)
     {
         dto.push_back(dto_[0]);
         dto.push_back(recipient_);
-        if(!cc->send(dto, command))
+        if(1)
             std::cout << "There are no messages in this room yet!\n";
         else
         {
@@ -143,7 +149,7 @@ void RoomControl::read(ClientController* cc, const std::string& command)
     }
     else if(command == "6")
     {
-        cc->send(dto, command);
+        
         int number = 1;
 	    std::cout << "Now in chat room:\n";
         for(const auto& data : dto)
@@ -162,7 +168,7 @@ void RoomControl::setRecipient(ClientController* cc)
         return;
     }
     DTO dto{ recipient };
-    if(!cc->send(dto, "5") && recipient != "all")
+    if(recipient != "all")
     {
         std::cout << "There is no user with this login in the chat room!\n";
         return;

@@ -26,11 +26,10 @@ public:
     ServerController();
     ~ServerController();
     void run();
-    void respond();
+    void respond(DTO& dto);
     enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS };
     static bool active_;
 private:
     std::unique_ptr<Router> router_;
     std::unique_ptr<Server> server_;
-    DTO dto_;
 };

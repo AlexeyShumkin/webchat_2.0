@@ -25,18 +25,14 @@ void ClientController::request()
     state_->request(this);
 }
 
-bool ClientController::send(DTO& dto, const std::string& command)
+bool ClientController::send(char command)
 {
-    DTO tmp{ command };
-    router_->passDTO(tmp);
-    router_->takeDTO(tmp);
-    if(!tmp.empty())
-    {
-        router_->passDTO(dto);
-        router_->takeDTO(dto);
-        return !dto.empty();
-    }
-    return false;
+    return router_->pass(command);
+}
+
+bool ClientController::send(const DTO& dto)
+{
+    return router_->pass(dto);
 }
 
 void ClientController::setState(std::unique_ptr<State>& state)
