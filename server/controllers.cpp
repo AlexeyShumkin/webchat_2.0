@@ -22,18 +22,18 @@ void ServerController::run()
         if(command < 1)
             break;
         serverUp(command);
-        respond(dto, command);
+        respond(dto);
     }
-    std::cout << "Session end.\n";
+    std::cout << "\nSession end.\n";
 }
 
-void ServerController::respond(DTO& dto, int command)
+void ServerController::respond(DTO& dto)
 {
     router_->take(dto);
     if(server_->handle(dto))
     {
         router_->pass('1');
-        if(command == 4 || command == 6)
+        if(commandFlag_)
             router_->pass(dto);
     }
     else
@@ -42,6 +42,8 @@ void ServerController::respond(DTO& dto, int command)
 
 void ServerController::serverUp(int command)
 {
+    if(commandFlag_)
+        commandFlag_ = false;
     switch(command)
     {
     case ServerController::SIGNUP:
@@ -55,12 +57,14 @@ void ServerController::serverUp(int command)
         break;
     case ServerController::READ:
         server_->setHandler(std::make_unique<ReadHandler>(ReadHandler()));
+        commandFlag_ = true;
         break;
     case ServerController::FIND:
         server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
         break;
     case ServerController::USERS:
         server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
+        commandFlag_ = true;
         break;
     }
 }

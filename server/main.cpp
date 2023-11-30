@@ -6,10 +6,10 @@ fs::path Server::msgDataPath_{ "data/msgData" };
 
 int main()
 {
-   ServerController sc;
    int pid = fork();
    if(pid)
    {
+      ServerController sc;
       sc.run();
    }  
    else if(!pid)

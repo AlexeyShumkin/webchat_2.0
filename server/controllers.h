@@ -13,8 +13,9 @@ public:
     enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS };
 protected:
     std::unique_ptr<Server> server_;
+    bool commandFlag_{ false };
 private:
-    void respond(DTO& dto, int command);
+    void respond(DTO& dto);
     std::unique_ptr<Router> router_;
 };
 
