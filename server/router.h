@@ -15,14 +15,16 @@ using DTO = std::vector<std::string>;
 class Router
 {
 public:
-    bool establish();
+    void establish();
+    void wiretap();
     int getSocketFD() const;
     int take();
     void take(DTO& dto);
     void pass(char answer);
     void pass(const DTO& dto);
-    int getClientAddr() const;
+    bool getStatus() const;    
 private:
+    bool status_{ false };
     struct sockaddr_in serveraddress, client;
     socklen_t length;
     int socket_file_descriptor, connection, bind_status, connection_status;

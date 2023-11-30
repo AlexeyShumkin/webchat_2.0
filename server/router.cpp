@@ -1,12 +1,12 @@
 #include "router.h"
 
-bool Router::establish()
+void Router::establish()
 {
     socket_file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
     if(socket_file_descriptor == -1)
     {
         std::cout << "Socket creation failed!\n";
-        return false;
+        return;
     }
     serveraddress.sin_addr.s_addr = htonl(INADDR_ANY);
     serveraddress.sin_port = htons(PORT);
@@ -15,27 +15,33 @@ bool Router::establish()
     if(bind_status == -1)  
     {
         std::cout << "Socket binding failed!\n";
-        return false;
+        return;
     }
+    status_ = true;
+}
+
+int Router::getSocketFD() const
+{
+    return socket_file_descriptor;
+}
+
+void Router::wiretap()
+{
+    if(!status_)
+        return;
     connection_status = listen(socket_file_descriptor, 5);
     if(connection_status == -1)
     {
         std::cout << "Socket is unable to listen for new connections!\n";
-        return false;
+        return;
     }  
     length = sizeof(client);
     connection = accept(socket_file_descriptor,(struct sockaddr*)&client, &length);
     if(connection == -1) 
     {
         std::cout << "Server is unable to accept the data from client!\n";
-        return false;
+        return;
     }
-    return true;
-}
-
-int Router::getSocketFD() const
-{
-    return socket_file_descriptor;
 }
 
 int Router::take()
@@ -96,7 +102,9 @@ void Router::pass(const DTO& dto)
     write(connection, buffer, sizeof(buffer));
 }
 
-int Router::getClientAddr() const
+bool Router::getStatus() const
 {
-    return client.sin_addr.s_addr;
+    return status_;
 }
+
+

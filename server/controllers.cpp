@@ -15,16 +15,19 @@ ServerController::~ServerController()
 void ServerController::run()
 {
     router_->establish();
-    DTO dto;
-    while(true)
+    while(router_->getStatus())
     {
-        int command = router_->take();
-        if(command < 1)
-            break;
-        serverUp(command);
-        respond(dto);
+        router_->wiretap();
+        while(true)
+        {
+            DTO dto;
+            int command = router_->take();
+            if(command < 1)
+                break;
+            serverUp(command);
+            respond(dto);
+        }
     }
-    std::cout << "\nSession end.\n";
 }
 
 void ServerController::respond(DTO& dto)
