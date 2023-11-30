@@ -21,6 +21,7 @@ public:
     void take(DTO& dto);
     void pass(char answer);
     void pass(const DTO& dto);
+    int getClientAddr() const;
 private:
     struct sockaddr_in serveraddress, client;
     socklen_t length;

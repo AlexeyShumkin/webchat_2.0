@@ -95,3 +95,8 @@ void Router::pass(const DTO& dto)
     strcpy(buffer, "end");
     write(connection, buffer, sizeof(buffer));
 }
+
+int Router::getClientAddr() const
+{
+    return client.sin_addr.s_addr;
+}

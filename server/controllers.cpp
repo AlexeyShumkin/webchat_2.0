@@ -16,10 +16,12 @@ void ServerController::run()
 {
     router_->establish();
     DTO dto;
-    while(active_)
+    while(true)
     {
         int command = router_->take();
-        setHandler(command);
+        if(command < 1)
+            break;
+        serverUp(command);
         respond(dto, command);
     }
     std::cout << "Session end.\n";
@@ -38,7 +40,7 @@ void ServerController::respond(DTO& dto, int command)
         router_->pass('0');
 }
 
-void ServerController::setHandler(int command)
+void ServerController::serverUp(int command)
 {
     switch(command)
     {
@@ -71,7 +73,7 @@ ClientController::ClientController()
 
 ClientController::~ClientController()
 {
-    ServerController::active_ = false;
+    
 }
 
 void ClientController::run()
@@ -89,7 +91,7 @@ void ClientController::request()
 
 bool ClientController::send(DTO& dto, int command)
 {
-    setHandler(command);
+    serverUp(command);
     return server_->handle(dto);
 }
 

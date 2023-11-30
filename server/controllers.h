@@ -8,14 +8,13 @@ class ServerController
 public:
     ServerController();
     ~ServerController();
-    void run();
-    void respond(DTO& dto, int command);
-    void setHandler(int command);
+    virtual void run();
+    void serverUp(int command);
     enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS };
-    static bool active_;
 protected:
     std::unique_ptr<Server> server_;
 private:
+    void respond(DTO& dto, int command);
     std::unique_ptr<Router> router_;
 };
 
@@ -24,7 +23,7 @@ class ClientController : public ServerController
 public:
     ClientController();
     ~ClientController();
-    void run();
+    void run() override;
     void request();
     bool send(DTO& dto, int command);
 private:
