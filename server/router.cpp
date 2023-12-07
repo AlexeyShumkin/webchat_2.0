@@ -61,7 +61,7 @@ void Router::take(DTO& dto)
         read(connection, buffer, sizeof(buffer));
         if(!strcmp("end", buffer))
             break;
-        int digit = strlen(buffer);
+        auto digit = strlen(buffer);
         size_t size = 1;
         for(int i = 0; i < strlen(buffer); ++i)
             size += (buffer[i] - '0') * pow(10, --digit);

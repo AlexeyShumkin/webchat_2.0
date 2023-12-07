@@ -17,12 +17,12 @@ class Router
 public:
     void establish();
     void wiretap();
+    bool getStatus() const;
     int getSocketFD() const;
     int take();
     void take(DTO& dto);
     void pass(char answer);
     void pass(const DTO& dto);
-    bool getStatus() const;    
 private:
     bool status_{ false };
     struct sockaddr_in serveraddress, client;

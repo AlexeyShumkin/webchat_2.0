@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include "router.h"
 
 class ClientController;
@@ -14,6 +15,17 @@ protected:
     DTO dto_;
 };
 
+class ConnectionControl : public State
+{
+public:
+    void request(ClientController* cc) override;
+    bool setAddress(ClientController* cc);
+    bool selectAddress(ClientController* cc);
+    bool passAddress(ClientController* cc, const std::string& address);
+private:
+    std::string addrPath{"addresses"};
+};
+
 class SignControl : public State
 {
 public:
@@ -24,7 +36,7 @@ public:
 class RoomControl : public State
 {
 public:
-    RoomControl(const std::string& sender);
+    explicit RoomControl(const std::string& sender);
     void request(ClientController* cc) override;
     bool post();
     std::string getCurrentTime();

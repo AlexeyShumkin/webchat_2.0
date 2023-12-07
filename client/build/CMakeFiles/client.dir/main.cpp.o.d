@@ -220,4 +220,8 @@ CMakeFiles/client.dir/main.cpp.o: \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
  /home/awl/projects/webchat_2.0/client/controllers.h \
- /home/awl/projects/webchat_2.0/client/states.h
+ /home/awl/projects/webchat_2.0/client/states.h \
+ /usr/include/c++/11/fstream /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
+ /usr/include/c++/11/bits/fstream.tcc

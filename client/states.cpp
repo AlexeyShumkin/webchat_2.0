@@ -11,6 +11,84 @@ void State::exit(ClientController* cc)
     cc->active_ = false;
 }
 
+void ConnectionControl::request(ClientController* cc)
+{
+    char action = '0';
+    std::cout << "Add address(1), select address(2), exit(q): ";
+    std::cin >> action;
+    switch(action)
+    {
+    case '1':
+        if(setAddress(cc))
+        {
+            std::cout << "You are welcome to register, or you can enter the chat room if you are already registered.\n";
+            setState(cc, std::make_unique<SignControl>(SignControl()));
+        }
+        else
+            std::cout << "Connection with the server failed!\n";
+        break;
+    case '2':
+        if(selectAddress(cc))
+        {
+            std::cout << "You are welcome to register, or you can enter the chat room if you are already registered.\n";
+            setState(cc, std::make_unique<SignControl>(SignControl()));
+        }
+        else
+            std::cout << "Connection error!\n";
+        break;
+    case 'q':
+        exit(cc);
+        break;
+    default:
+        std::cout << "Your command is unclear. Please, select an action from the list:\n";
+    }
+}
+
+bool ConnectionControl::setAddress(ClientController* cc)
+{
+    std::cout << "Enter server address: ";
+    std::string address;
+    std::getline(std::cin.ignore(), address);
+    if (passAddress(cc, address))
+    {
+        std::ofstream out;
+        out.open(addrPath, std::fstream::app);
+        out << address << std::endl;
+        out.close();
+        return true;
+    }
+    return false;
+}
+
+bool ConnectionControl::selectAddress(ClientController* cc)
+{
+    std::ifstream in(addrPath);
+    for (std::string line; std::getline(in, line);) 
+    	dto_.push_back(line);
+    if(dto_.size())
+        std::cout << "Stored addresses:\n";
+    for(const auto& data : dto_)
+    {
+        std::cout << data << std::endl;
+        char choice = '0';
+        std::cout << "Confirm(y): ";
+        std::cin >> choice;
+        if(choice == 'y')
+            return passAddress(cc, data);
+        else
+            continue;
+    }
+    return false;
+}
+
+bool ConnectionControl::passAddress(ClientController* cc, const std::string& address)
+{
+    if(address.empty())
+        return false;
+    cc->router_->recordAddress(address);
+    return cc->router_->establish();
+}
+
 void SignControl::request(ClientController* cc)
 {
     char action = '0';

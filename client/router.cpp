@@ -4,20 +4,12 @@ bool Router::establish()
 {
     socket_file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
     if(socket_file_descriptor == -1)
-    {
-        std::cout << "Creation of Socket failed!\n";
         return false;
-    }
-    serveraddress.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serveraddress.sin_addr.s_addr = inet_addr(addrBuf);
     serveraddress.sin_port = htons(PORT);
     serveraddress.sin_family = AF_INET;
     connection = connect(socket_file_descriptor, (struct sockaddr*)&serveraddress, sizeof(serveraddress));
-    if(connection == -1)
-    {
-        std::cout << "Connection with the server failed!\n";
-        return false;
-    }
-    return true;
+    return connection != -1;
 }
 
 const int Router::getSocketFD() const
@@ -66,7 +58,7 @@ void Router::take(DTO& dto)
         read(socket_file_descriptor, buffer, sizeof(buffer));
         if(!strcmp("end", buffer))
             break;
-        int digit = strlen(buffer);
+        auto digit = strlen(buffer);
         size_t size = 1;
         for(int i = 0; i < strlen(buffer); ++i)
             size += (buffer[i] - '0') * pow(10, --digit);
@@ -79,4 +71,10 @@ void Router::take(DTO& dto)
         delete[] tmp;
         write(socket_file_descriptor, buffer, sizeof(buffer));
     }
+}
+
+void Router::recordAddress(const std::string& address)
+{
+    bzero(addrBuf, 16);
+    strcpy(addrBuf, address.c_str());
 }

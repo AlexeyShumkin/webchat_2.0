@@ -3,7 +3,7 @@
 ClientController::ClientController()
 {
     router_ = std::make_unique<Router>(Router());
-    state_ = std::make_unique<SignControl>(SignControl());
+    state_ = std::make_unique<ConnectionControl>(ConnectionControl());
 }
 
 ClientController::~ClientController()
@@ -13,8 +13,7 @@ ClientController::~ClientController()
 
 void ClientController::run()
 {
-    if(router_->establish())
-        std::cout << "Hello! You are welcome to register, or you can enter the chat room if you are already registered.\n";
+    std::cout << "Hello, you can enter the server address or select a stored address to connect to this server.\n";
     while(active_)
         request();
     std::cout << "Goodbye!\n";

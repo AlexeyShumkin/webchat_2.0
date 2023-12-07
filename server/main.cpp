@@ -1,4 +1,3 @@
-#include <unistd.h>
 #include "controllers.h"
 
 fs::path Server::userDataPath_{ "data/userData" };

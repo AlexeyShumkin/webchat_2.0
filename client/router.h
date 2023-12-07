@@ -21,8 +21,10 @@ public:
     bool pass(char command);
     bool pass(const DTO& dto);
     void take(DTO& dto);
+    void recordAddress(const std::string& address);
 private:
     struct sockaddr_in serveraddress, client;
     int socket_file_descriptor, connection;
     char buffer[BUF_SIZE];
+    char addrBuf[16];
 };
