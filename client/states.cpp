@@ -34,7 +34,7 @@ void ConnectionControl::request(ClientController* cc)
             setState(cc, std::make_unique<SignControl>(SignControl()));
         }
         else
-            std::cout << "Connection error!\n";
+            std::cout << "Connection with the server failed!\n";
         break;
     case 'q':
         exit(cc);
@@ -49,6 +49,15 @@ bool ConnectionControl::setAddress(ClientController* cc)
     std::cout << "Enter server address: ";
     std::string address;
     std::getline(std::cin.ignore(), address);
+    std::ifstream in(addrPath);
+    for (std::string line; std::getline(in, line);)
+    {
+        if(line == address)
+        {
+            std::cout << "This address already stored!\n";
+            return false;
+        }
+    }
     if (passAddress(cc, address))
     {
         std::ofstream out;
@@ -133,9 +142,20 @@ void SignControl::sign()
 	std::cin >> login;
 	std::cout << "Enter your password: ";
 	std::cin >> password;
+    auto hash = std::to_string(hashFunction(password));
     dto_.clear();
     dto_.push_back(login);
-    dto_.push_back(password);
+    dto_.push_back(hash);
+}
+
+size_t SignControl::hashFunction(const std::string& password)
+{
+    size_t i = 0;
+    size_t j = password.size() - 1;
+    size_t res = 0;
+    while(i < j)
+        res += password[i++] << password[j--];
+    return res;
 }
 
 RoomControl::RoomControl(const std::string& sender)

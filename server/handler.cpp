@@ -14,52 +14,18 @@ size_t Handler::makeDialogID(const std::string& sender, const std::string& recip
     return res <<= sum;
 }
 
-size_t Handler::hashFunction(const std::string& password)
+bool SignUpHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    size_t i = 0;
-    size_t j = password.size() - 1;
-    size_t res = 0;
-    while(i < j)
-        res += password[i++] << password[j--];
-    return res;
+    std::string query = "insert into users(login, hash) values('" + dto[0] + "','" + dto[1] + "')";
+    return mysql_query(mysql, query.c_str()) == 0;
 }
 
-bool SignUpHandler::specHandle(DTO& dto)
+bool SignInHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    if(!fs::exists(Server::userDataPath_ / dto[0]))
-    {
-        size_t hash = hashFunction(dto[1]);
-        std::ofstream out;
-        out.open(Server::userDataPath_ / dto[0]);
-        if(out.is_open())
-        {
-            out << hash;
-            out.close();
-            return true;
-        }
-    }
     return false;
 }
 
-bool SignInHandler::specHandle(DTO& dto)
-{
-    if(fs::exists(Server::userDataPath_ / dto[0]))
-    {
-        size_t hash = hashFunction(dto[1]);
-        size_t tmp = 0;
-        std::ifstream in;
-        in.open(Server::userDataPath_ / dto[0]);
-        if(in.is_open())
-        {
-            in >> tmp;
-            in.close();
-        }
-        return hash == tmp;
-    }
-    return false;
-}
-
-bool PostHandler::specHandle(DTO& dto)
+bool PostHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
     std::string room;
     if(dto[1] == "all")
@@ -77,7 +43,7 @@ bool PostHandler::specHandle(DTO& dto)
     return false;
 }
 
-bool ReadHandler::specHandle(DTO& dto)
+bool ReadHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
     std::string room;
     if(dto[1] == "all")
@@ -93,12 +59,12 @@ bool ReadHandler::specHandle(DTO& dto)
     return true;
 }
 
-bool FindUserHandler::specHandle(DTO& dto)
+bool FindUserHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
     return fs::exists(Server::userDataPath_ / dto[0]);
 }
 
-bool UserDisplayHandler::specHandle(DTO& dto)
+bool UserDisplayHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
     auto offName = Server::userDataPath_.c_str();
     fs::path path;

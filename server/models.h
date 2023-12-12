@@ -20,4 +20,5 @@ private:
     friend class ClientController;
     std::unique_ptr<Handler> handler_;
     void setHandler(std::unique_ptr<Handler>&& handler);
+    MYSQL mysql;
 };
