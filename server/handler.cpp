@@ -22,7 +22,8 @@ bool SignUpHandler::specHandle(DTO& dto, MYSQL* mysql)
 
 bool SignInHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    return false;
+    std::string query = "select exists(select * from users where login = '" + dto[0] + "' and hash = '" + dto[1] + "')";
+    return mysql_query(mysql, query.c_str());
 }
 
 bool PostHandler::specHandle(DTO& dto, MYSQL* mysql)

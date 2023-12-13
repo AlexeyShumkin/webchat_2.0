@@ -18,6 +18,7 @@ class SignControl : public State
 public:
     void request(ClientController* cc) override;
     void sign();
+    size_t hashFunction(const std::string& password);
 };
 
 class RoomControl : public State
