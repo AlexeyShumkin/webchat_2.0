@@ -68,6 +68,8 @@ void ServerController::serverUp(int command)
     case USERS:
         server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
         commandFlag_ = true;
+    case SIGNOUT:
+        server_->setHandler(std::make_unique<SignOutHandler>(SignOutHandler()));
         break;
     }
 }

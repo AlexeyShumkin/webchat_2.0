@@ -48,3 +48,9 @@ class UserDisplayHandler : public Handler
 public:
     bool specHandle(DTO& dto, MYSQL* mysql) override;
 };
+
+class SignOutHandler : public Handler
+{
+public:
+    bool specHandle(DTO& dto, MYSQL* mysql) override;
+};

@@ -10,7 +10,7 @@ public:
     ~ServerController();
     virtual void run();
     void serverUp(int command);
-    enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS };
+    enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS, SIGNOUT };
 protected:
     std::unique_ptr<Server> server_;
     bool commandFlag_{ false };
@@ -33,5 +33,3 @@ private:
     void setState(std::unique_ptr<State>& state);
     std::unique_ptr<State> state_;
 };
-
-

@@ -26,7 +26,13 @@ bool SignInHandler::specHandle(DTO& dto, MYSQL* mysql)
     mysql_query(mysql, query.c_str());
     res = mysql_store_result(mysql);
     row = mysql_fetch_row(res);
-    return *row[0] == '1';
+    if(*row[0] == '1')
+    {
+        query = "update users set status = 'online' where login ='" + dto[0] + "'";
+        return mysql_query(mysql, query.c_str()) == 0;
+    }
+    else
+        return false;
 }
 
 bool PostHandler::specHandle(DTO& dto, MYSQL* mysql)
@@ -81,4 +87,10 @@ bool UserDisplayHandler::specHandle(DTO& dto, MYSQL* mysql)
 		dto.push_back(user);
 	}
     return true;
+}
+
+bool SignOutHandler::specHandle(DTO& dto, MYSQL* mysql)
+{
+    std::string query = "update users set status = 'offline' where login ='" + dto[0] + "'";
+    return mysql_query(mysql, query.c_str()) == 0;
 }
