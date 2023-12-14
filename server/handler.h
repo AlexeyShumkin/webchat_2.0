@@ -9,6 +9,8 @@ public:
     virtual bool specHandle(DTO& dto, MYSQL* mysql) = 0;
 protected:
     size_t makeDialogID(const std::string& sender, const std::string& recipient);
+    MYSQL_RES* res;
+	MYSQL_ROW row;
 };
 
 class SignUpHandler : public Handler

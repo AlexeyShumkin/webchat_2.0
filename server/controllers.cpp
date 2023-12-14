@@ -49,23 +49,23 @@ void ServerController::serverUp(int command)
         commandFlag_ = false;
     switch(command)
     {
-    case ServerController::SIGNUP:
+    case SIGNUP:
         server_->setHandler(std::make_unique<SignUpHandler>(SignUpHandler()));
         break;
-    case ServerController::SIGNIN:
+    case SIGNIN:
         server_->setHandler(std::make_unique<SignInHandler>(SignInHandler()));
         break;
-    case ServerController::POST:
+    case POST:
         server_->setHandler(std::make_unique<PostHandler>(PostHandler()));
         break;
-    case ServerController::READ:
+    case READ:
         server_->setHandler(std::make_unique<ReadHandler>(ReadHandler()));
         commandFlag_ = true;
         break;
-    case ServerController::FIND:
+    case FIND:
         server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
         break;
-    case ServerController::USERS:
+    case USERS:
         server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
         commandFlag_ = true;
         break;
