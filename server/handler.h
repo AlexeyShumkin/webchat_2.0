@@ -8,7 +8,6 @@ public:
     virtual ~Handler() = default;
     virtual bool specHandle(DTO& dto, MYSQL* mysql) = 0;
 protected:
-    size_t makeDialogID(const std::string& sender, const std::string& recipient);
     MYSQL_RES* res;
 	MYSQL_ROW row;
 };
@@ -29,9 +28,13 @@ class PostHandler : public Handler
 {
 public:
     bool specHandle(DTO& dto, MYSQL* mysql) override;
+protected:
+    std::hash<std::string> hasher;
+    std::string hash(const std::string& sender, const std::string& recipient);
+    int getRoomID(DTO& dto, MYSQL* mysql);
 };
 
-class ReadHandler : public Handler
+class ReadHandler : public PostHandler
 {
 public:
     bool specHandle(DTO& dto, MYSQL* mysql) override;

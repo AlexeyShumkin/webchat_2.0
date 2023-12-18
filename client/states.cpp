@@ -76,11 +76,12 @@ bool ConnectionControl::selectAddress(ClientController* cc)
     	dto_.push_back(line);
     if(dto_.size())
         std::cout << "Stored addresses:\n";
+    int number = 1;
     for(const auto& data : dto_)
     {
-        std::cout << data << std::endl;
+        std::cout << number++ << ") " << data << '\t';
         char choice = '0';
-        std::cout << "Confirm(y): ";
+        std::cout << "confirm(y): ";
         std::cin >> choice;
         if(choice == 'y')
             return passAddress(cc, data);
@@ -142,20 +143,11 @@ void SignControl::sign()
 	std::cin >> login;
 	std::cout << "Enter your password: ";
 	std::cin >> password;
-    auto hash = std::to_string(hashFunction(password));
+    std::hash<std::string> hasher;
+    auto hash = std::to_string(hasher(password));
     dto_.clear();
     dto_.push_back(login);
     dto_.push_back(hash);
-}
-
-size_t SignControl::hashFunction(const std::string& password)
-{
-    size_t i = 0;
-    size_t j = password.size() - 1;
-    size_t res = 0;
-    while(i < j)
-        res += password[i++] << password[j--];
-    return res;
 }
 
 RoomControl::RoomControl(const std::string& sender)
@@ -196,6 +188,8 @@ void RoomControl::request(ClientController* cc)
         read(cc, '6');
         break;
     case '5':
+        cc->send('7');
+        cc->send(dto_);
         std::cout << "User " << dto_[0] << " left the chat room.\n";
         setState(cc, std::make_unique<SignControl>(SignControl()));
         break;

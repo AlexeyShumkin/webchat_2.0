@@ -50,20 +50,11 @@ void SignControl::sign()
 	std::cin >> login;
 	std::cout << "Enter your password: ";
 	std::cin >> password;
-    auto hash = std::to_string(hashFunction(password));
+    std::hash<std::string> hasher;
+    auto hash = std::to_string(hasher(password));
     dto_.clear();
     dto_.push_back(login);
     dto_.push_back(hash);
-}
-
-size_t SignControl::hashFunction(const std::string& password)
-{
-    size_t i = 0;
-    size_t j = password.size() - 1;
-    size_t res = 0;
-    while(i < j)
-        res += password[i++] << password[j--];
-    return res;
 }
 
 RoomControl::RoomControl(const std::string& sender)
@@ -117,13 +108,15 @@ void RoomControl::request(ClientController* cc)
 bool RoomControl::post()
 {
     std::string text;
-	std::cout << "Message: ";
-	std::getline(std::cin.ignore(), text);
-    if(text.empty())
+    std::cout << "Message: ";
+    std::getline(std::cin.ignore(), text);
+    if (text.empty())
+    {
         std::cout << "You can't send an empty message!\n";
+        return false;
+    }
     dto_.push_back(text);
-    dto_.push_back(getCurrentTime());
-    return !text.empty();
+    return true;
 }
 
 std::string RoomControl::getCurrentTime()

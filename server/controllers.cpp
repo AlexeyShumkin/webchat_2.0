@@ -10,6 +10,7 @@ ServerController::ServerController()
 ServerController::~ServerController()
 {
     close(router_->getSocketFD());
+    mysql_close(&server_->mysql);
 }
 
 void ServerController::run()
@@ -82,7 +83,7 @@ ClientController::ClientController()
 
 ClientController::~ClientController()
 {
-    
+    mysql_close(&server_->mysql);
 }
 
 void ClientController::run()
