@@ -212,7 +212,6 @@ bool RoomControl::post()
         return false;
     }    
     dto_.push_back(text);
-    dto_.push_back(getCurrentTime());
     return true;
 }
 

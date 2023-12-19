@@ -23,13 +23,21 @@ bool SignInHandler::specHandle(DTO& dto, MYSQL* mysql)
 
 bool PostHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    int id = getRoomID(dto, mysql);
-    if(id > 0)
+    std::string room;
+    if (dto[1] == "all")
+        room = "general";
+    else
+        room = (hash(dto[0], dto[1]));
+    int id = getRoomID(mysql, room);
+    std::string query;
+    if(id <= 0)
     {
-        std::string query = "call post(" + std::to_string(id) + ",'" + dto[0] + "','" + dto[1] + "','" + dto[2] + "')";
-        return mysql_query(mysql, query.c_str()) == 0;
+        query = "insert into rooms(title) values('" + room + "')";
+        mysql_query(mysql, query.c_str());
+        id = getRoomID(mysql, room);
     }
-    return false;
+    query = "call post(" + std::to_string(id) + ",'" + dto[0] + "','" + dto[1] + "','" + dto[2] + "')";
+    return mysql_query(mysql, query.c_str()) == 0;
 }
 
 std::string PostHandler::hash(const std::string& sender, const std::string& recipient)
@@ -39,24 +47,31 @@ std::string PostHandler::hash(const std::string& sender, const std::string& reci
     return std::to_string(hash1 ^ hash2);
 }
 
-int PostHandler::getRoomID(DTO& dto, MYSQL* mysql)
+int PostHandler::getRoomID(MYSQL* mysql, const std::string& room)
 {
-    std::string room;
-    if(dto[1] == "all")
-        room = "general";
-    else
-       room = (hash(dto[0], dto[1]));
-    std::string query = "select id from rooms where title ='" + room + "'";
+    std::string query = "select exists(select id from rooms where title ='" + room + "')";
     mysql_query(mysql, query.c_str());
     res = mysql_store_result(mysql);
     row = mysql_fetch_row(res);
+    if (*row[0] == '1')
+    {
+        query = "select id from rooms where title ='" + room + "'";
+        mysql_query(mysql, query.c_str());
+        res = mysql_store_result(mysql);
+        row = mysql_fetch_row(res);
+    }
     int id = atoi(row[0]);
     return id;
 }
 
 bool ReadHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    int id = getRoomID(dto, mysql);
+    std::string room;
+    if (dto[1] == "all")
+        room = "general";
+    else
+        room = (hash(dto[0], dto[1]));
+    int id = getRoomID(mysql, room);
     if(id > 0)
     {
         std::string query = "select sender,recipient,content,received_at from msgdata where room_id = " + std::to_string(id);
@@ -90,7 +105,11 @@ bool ReadHandler::specHandle(DTO& dto, MYSQL* mysql)
 
 bool FindUserHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    return fs::exists(Server::userDataPath_ / dto[0]);
+    std::string query = "select exists(select id from users where login ='" + dto[0] + "')";
+    mysql_query(mysql, query.c_str());
+    res = mysql_store_result(mysql);
+    row = mysql_fetch_row(res);
+    return *row[0] == '1';
 }
 
 bool UserDisplayHandler::specHandle(DTO& dto, MYSQL* mysql)

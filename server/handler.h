@@ -31,7 +31,7 @@ public:
 protected:
     std::hash<std::string> hasher;
     std::string hash(const std::string& sender, const std::string& recipient);
-    int getRoomID(DTO& dto, MYSQL* mysql);
+    int getRoomID(MYSQL* mysql, const std::string& room);
 };
 
 class ReadHandler : public PostHandler
