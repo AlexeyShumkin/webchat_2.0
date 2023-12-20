@@ -10,6 +10,7 @@ public:
 protected:
     MYSQL_RES* res;
 	MYSQL_ROW row;
+    std::string query;
 };
 
 class SignUpHandler : public Handler

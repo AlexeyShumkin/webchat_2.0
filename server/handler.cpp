@@ -3,13 +3,13 @@
 
 bool SignUpHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    std::string query = "insert into users(login, pw_hash) values('" + dto[0] + "','" + dto[1] + "')";
+    query = "insert into users(login, pw_hash) values('" + dto[0] + "','" + dto[1] + "')";
     return mysql_query(mysql, query.c_str()) == 0;
 }
 
 bool SignInHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    std::string query = "select exists(select id from users where login ='" + dto[0] + "' and pw_hash ='" + dto[1] + "')";
+    query = "select exists(select id from users where login ='" + dto[0] + "' and pw_hash ='" + dto[1] + "')";
     mysql_query(mysql, query.c_str());
     res = mysql_store_result(mysql);
     row = mysql_fetch_row(res);
@@ -29,7 +29,6 @@ bool PostHandler::specHandle(DTO& dto, MYSQL* mysql)
     else
         room = (hash(dto[0], dto[1]));
     int id = getRoomID(mysql, room);
-    std::string query;
     if(id <= 0)
     {
         query = "insert into rooms(title) values('" + room + "')";
@@ -49,7 +48,7 @@ std::string PostHandler::hash(const std::string& sender, const std::string& reci
 
 int PostHandler::getRoomID(MYSQL* mysql, const std::string& room)
 {
-    std::string query = "select exists(select id from rooms where title ='" + room + "')";
+    query = "select exists(select id from rooms where title ='" + room + "')";
     mysql_query(mysql, query.c_str());
     res = mysql_store_result(mysql);
     row = mysql_fetch_row(res);
@@ -74,7 +73,7 @@ bool ReadHandler::specHandle(DTO& dto, MYSQL* mysql)
     int id = getRoomID(mysql, room);
     if(id > 0)
     {
-        std::string query = "select sender,recipient,content,received_at from msgdata where room_id = " + std::to_string(id);
+        query = "select sender,recipient,content,received_at from msgdata where room_id = " + std::to_string(id);
         mysql_query(mysql, query.c_str());
         res = mysql_store_result(mysql);
         dto.clear();
@@ -105,7 +104,7 @@ bool ReadHandler::specHandle(DTO& dto, MYSQL* mysql)
 
 bool FindUserHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    std::string query = "select exists(select id from users where login ='" + dto[0] + "')";
+    query = "select exists(select id from users where login ='" + dto[0] + "')";
     mysql_query(mysql, query.c_str());
     res = mysql_store_result(mysql);
     row = mysql_fetch_row(res);
@@ -114,21 +113,31 @@ bool FindUserHandler::specHandle(DTO& dto, MYSQL* mysql)
 
 bool UserDisplayHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    auto offName = Server::userDataPath_.c_str();
-    fs::path path;
+    std::string query = "select login, status from users";
+    mysql_query(mysql, query.c_str());
+    res = mysql_store_result(mysql);
     dto.clear();
-    for (const auto& entry : fs::directory_iterator(Server::userDataPath_))
+    while (row = mysql_fetch_row(res))
     {
-		path = entry;
-		auto user = path.generic_string();
-		user = user.substr(strlen(offName) + 1);
-		dto.push_back(user);
-	}
+        std::string tmp;
+        for (size_t i = 0, counter = 1; i < mysql_num_fields(res); ++i, ++counter)
+        {
+            tmp += row[i];
+            if (counter == 1)
+                tmp += '\t';
+            else if (counter == 2)
+            {
+                dto.push_back(tmp);
+                counter = 0;
+                tmp.clear();
+            }
+        }
+    }
     return true;
 }
 
 bool SignOutHandler::specHandle(DTO& dto, MYSQL* mysql)
 {
-    std::string query = "update users set status = 'offline' where login ='" + dto[0] + "'";
+    query = "update users set status = 'offline' where login ='" + dto[0] + "'";
     return mysql_query(mysql, query.c_str()) == 0;
 }
