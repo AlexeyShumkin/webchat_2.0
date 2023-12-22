@@ -10,7 +10,7 @@ ServerController::ServerController()
 ServerController::~ServerController()
 {
     close(router_->getSocketFD());
-    mysql_close(&server_->mysql);
+    mysql_close(server_->getMysql());
 }
 
 void ServerController::run()
@@ -25,10 +25,15 @@ void ServerController::run()
             int command = router_->take();
             if(command < 1)
                 break;
-            serverUp(command);
+            server_->serverUp(command);
             respond(dto);
         }
     }
+}
+
+void ServerController::exit()
+{
+    router_->turnOff();
 }
 
 void ServerController::respond(DTO& dto)
@@ -37,43 +42,11 @@ void ServerController::respond(DTO& dto)
     if(server_->handle(dto))
     {
         router_->pass('1');
-        if(commandFlag_)
+        if(server_->getCommandFlag())
             router_->pass(dto);
     }
     else
         router_->pass('0');
-}
-
-void ServerController::serverUp(int command)
-{
-    if(commandFlag_)
-        commandFlag_ = false;
-    switch(command)
-    {
-    case SIGNUP:
-        server_->setHandler(std::make_unique<SignUpHandler>(SignUpHandler()));
-        break;
-    case SIGNIN:
-        server_->setHandler(std::make_unique<SignInHandler>(SignInHandler()));
-        break;
-    case POST:
-        server_->setHandler(std::make_unique<PostHandler>(PostHandler()));
-        break;
-    case READ:
-        server_->setHandler(std::make_unique<ReadHandler>(ReadHandler()));
-        commandFlag_ = true;
-        break;
-    case FIND:
-        server_->setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
-        break;
-    case USERS:
-        server_->setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
-        commandFlag_ = true;
-        break;
-    case SIGNOUT:
-        server_->setHandler(std::make_unique<SignOutHandler>(SignOutHandler()));
-        break;
-    }
 }
 
 ClientController::ClientController()
@@ -84,7 +57,7 @@ ClientController::ClientController()
 
 ClientController::~ClientController()
 {
-    mysql_close(&server_->mysql);
+    mysql_close(server_->getMysql());
 }
 
 void ClientController::run()
@@ -102,7 +75,7 @@ void ClientController::request()
 
 bool ClientController::send(DTO& dto, int command)
 {
-    serverUp(command);
+    server_->serverUp(command);
     return server_->handle(dto);
 }
 

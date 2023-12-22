@@ -8,28 +8,26 @@ class ServerController
 public:
     ServerController();
     ~ServerController();
-    virtual void run();
-    void serverUp(int command);
-    enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS, SIGNOUT };
-protected:
-    std::unique_ptr<Server> server_;
-    bool commandFlag_{ false };
+    void run();
+    void exit();
 private:
+    std::unique_ptr<Server> server_;
     void respond(DTO& dto);
     std::unique_ptr<Router> router_;
 };
 
-class ClientController : public ServerController
+class ClientController
 {
 public:
     ClientController();
     ~ClientController();
-    void run() override;
+    void run();
     void request();
     bool send(DTO& dto, int command);
 private:
     friend class State;
     bool active_{ true };
+    std::unique_ptr<Server> server_;
     void setState(std::unique_ptr<State>& state);
     std::unique_ptr<State> state_;
 };

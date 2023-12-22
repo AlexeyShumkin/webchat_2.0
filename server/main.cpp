@@ -2,12 +2,10 @@
 
 int main()
 {
-   // ServerController sc;
-   // sc.run();
+   ServerController sc;
    int pid = fork();
    if(pid)
    {
-      ServerController sc;
       sc.run();
    }  
    else if(!pid)
@@ -15,4 +13,5 @@ int main()
       ClientController cc;
       cc.run();
    }
+   sc.exit();
 }

@@ -27,7 +27,6 @@ public:
     RoomControl(const std::string& sender);
     void request(ClientController* cc) override;
     bool post();
-    std::string getCurrentTime();
     void read(ClientController* cc, int command);
     void setRecipient(ClientController* cc);
 protected:

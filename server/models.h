@@ -13,10 +13,15 @@ class Server
 public:
     Server();
     bool handle(DTO& dto);
+    void serverUp(int command);
+    bool getCommandFlag() const;
+    MYSQL* getMysql() const;
 private:
-    friend class ServerController;
-    friend class ClientController;
+    enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS, SIGNOUT };
+    bool commandFlag_{ false };
     std::unique_ptr<Handler> handler_;
+    void setConfigs();
     void setHandler(std::unique_ptr<Handler>&& handler);
-    MYSQL mysql;
+    std::unique_ptr<MYSQL> mysql_;
+    DTO conf_;
 };

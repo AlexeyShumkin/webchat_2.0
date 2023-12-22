@@ -18,6 +18,7 @@ public:
     void establish();
     void wiretap();
     bool getStatus() const;
+    void turnOff();
     int getSocketFD() const;
     int take();
     void take(DTO& dto);

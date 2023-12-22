@@ -107,4 +107,7 @@ bool Router::getStatus() const
     return status_;
 }
 
-
+void Router::turnOff()
+{
+    status_ = false;
+}
