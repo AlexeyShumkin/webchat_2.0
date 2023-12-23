@@ -65,6 +65,8 @@ RoomControl::RoomControl(const std::string& sender)
 
 void RoomControl::request(ClientController* cc)
 {
+    while(dto_.size() > 2)
+        dto_.pop_back();
     char action = '0';
     std::cout << "Send message(1), read conversation(2), change room(3), display users(4), sign out(5), exit(q): ";
     std::cin >> action;

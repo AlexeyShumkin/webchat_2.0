@@ -10,6 +10,7 @@ public:
     ~ServerController();
     void run();
     void exit();
+    const int getPid() const;
 private:
     std::unique_ptr<Server> server_;
     void respond(DTO& dto);
