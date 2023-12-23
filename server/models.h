@@ -16,6 +16,7 @@ public:
     void serverUp(int command);
     bool getCommandFlag() const;
     MYSQL* getMysql() const;
+    void setDefaultStatuses();
 private:
     enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS, SIGNOUT };
     bool commandFlag_{ false };

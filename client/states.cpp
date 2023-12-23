@@ -215,14 +215,6 @@ bool RoomControl::post()
     return true;
 }
 
-std::string RoomControl::getCurrentTime()
-{
-    time_t now = time(nullptr);
-	char buffer[20];
-	strftime(buffer, sizeof(buffer), "%X %d/%m/%Y", localtime(&now));
-	return buffer;
-}
-
 void RoomControl::read(ClientController* cc, char command)
 {
     DTO dto;

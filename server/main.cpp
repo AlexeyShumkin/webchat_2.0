@@ -3,12 +3,12 @@
 int main()
 {
    ServerController sc;
-   int pid = fork();
-   if(pid)
+   sc.setPid(fork());
+   if(sc.getPid())
    {
       sc.run();
    }  
-   else if(!pid)
+   else
    {
       ClientController cc;
       cc.run();

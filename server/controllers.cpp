@@ -9,8 +9,12 @@ ServerController::ServerController()
 
 ServerController::~ServerController()
 {
+    server_->setDefaultStatuses();
     close(router_->getSocketFD());
     mysql_close(server_->getMysql());
+    std::string esc{"kill "};
+    esc += std::to_string(pid_);
+    system(esc.c_str());
 }
 
 void ServerController::run()
@@ -36,6 +40,16 @@ void ServerController::exit()
     router_->turnOff();
 }
 
+const int ServerController::getPid() const
+{
+    return pid_;
+}
+
+void ServerController::setPid(int pid)
+{
+    pid_ = pid;
+}
+
 void ServerController::respond(DTO& dto)
 {
     router_->take(dto);
@@ -57,6 +71,7 @@ ClientController::ClientController()
 
 ClientController::~ClientController()
 {
+    server_->setDefaultStatuses();
     mysql_close(server_->getMysql());
 }
 

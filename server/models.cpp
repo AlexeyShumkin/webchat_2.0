@@ -65,6 +65,12 @@ MYSQL* Server::getMysql() const
     return mysql_.get();
 }
 
+void Server::setDefaultStatuses()
+{
+    const char* query = "update users set status = default";
+    mysql_query(mysql_.get(), query);
+}
+
 void Server::setHandler(std::unique_ptr<Handler>&& handler)
 {
     handler_ = move(handler);
