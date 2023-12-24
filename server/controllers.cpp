@@ -9,7 +9,6 @@ ServerController::ServerController()
 
 ServerController::~ServerController()
 {
-    server_->setDefaultStatuses();
     close(router_->getSocketFD());
     mysql_close(server_->getMysql());
     std::string esc{"kill "};
@@ -28,7 +27,10 @@ void ServerController::run()
             DTO dto;
             int command = router_->take();
             if(command < 1)
+            {
+                
                 break;
+            }
             server_->serverUp(command);
             respond(dto);
         }

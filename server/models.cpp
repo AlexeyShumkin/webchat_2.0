@@ -5,8 +5,9 @@ Server::Server()
     mysql_ = std::make_unique<MYSQL>(MYSQL());
     mysql_init(mysql_.get());
     setConfigs();
-	mysql_real_connect(mysql_.get(), conf_[0].c_str(), conf_[1].c_str(), conf_[2].c_str(), conf_[3].c_str(), 
-    stoi(conf_[4]), nullptr, 0);
+	if(!mysql_real_connect(mysql_.get(), conf_[0].c_str(), conf_[1].c_str(), conf_[2].c_str(), conf_[3].c_str(), 
+    stoi(conf_[4]), nullptr, 0))
+         std::cout << "Connection error: " << mysql_error(mysql_.get()) << std::endl;
     const char* query = "call complete";
     mysql_query(mysql_.get(), query);
 }

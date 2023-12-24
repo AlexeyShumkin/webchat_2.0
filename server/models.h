@@ -1,12 +1,7 @@
 #pragma once
 #include <fstream>
-#include <filesystem>
 #include <memory>
 #include "handler.h"
-
-namespace fs = std::filesystem;
-class ServerController;
-class ClientController;
 
 class Server
 {
