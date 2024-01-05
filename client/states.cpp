@@ -8,9 +8,12 @@ void State::setState(ClientController* cc, std::unique_ptr<State>&& state)
 
 void State::exit(ClientController* cc)
 {
-    cc->send('7');
-    DTO dto{ dto_.front() };
-    cc->send(dto);
+    if(!dto_.empty())
+    {
+        cc->send('7');
+        DTO dto{ dto_.front() };
+        cc->send(dto);
+    }
     cc->active_ = false;
 }
 
@@ -91,6 +94,7 @@ bool ConnectionControl::selectAddress(ClientController* cc)
         else
             continue;
     }
+    dto_.clear();
     return false;
 }
 
