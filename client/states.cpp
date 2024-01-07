@@ -28,7 +28,7 @@ void ConnectionControl::request(ClientController* cc)
         if(setAddress(cc))
         {
             std::cout << "You are welcome to register, or you can enter the chat room if you are already registered.\n";
-            setState(cc, std::make_unique<SignControl>(SignControl()));
+            setState(cc, std::make_unique<SignControl>());
         }
         else
             std::cout << "Connection with the server failed!\n";
@@ -37,7 +37,7 @@ void ConnectionControl::request(ClientController* cc)
         if(selectAddress(cc))
         {
             std::cout << "You are welcome to register, or you can enter the chat room if you are already registered.\n";
-            setState(cc, std::make_unique<SignControl>(SignControl()));
+            setState(cc, std::make_unique<SignControl>());
         }
         else
             std::cout << "Connection with the server failed!\n";
@@ -198,7 +198,7 @@ void RoomControl::request(ClientController* cc)
         cc->send('7');
         cc->send(dto_);
         std::cout << "User " << dto_[0] << " left the chat room.\n";
-        setState(cc, std::make_unique<SignControl>(SignControl()));
+        setState(cc, std::make_unique<SignControl>());
         break;
     case 'q':
         exit(cc);

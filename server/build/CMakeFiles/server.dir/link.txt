@@ -1,1 +1,1 @@
-/usr/bin/g++ -g -rdynamic CMakeFiles/server.dir/main.cpp.o CMakeFiles/server.dir/models.cpp.o CMakeFiles/server.dir/handler.cpp.o CMakeFiles/server.dir/controllers.cpp.o CMakeFiles/server.dir/router.cpp.o CMakeFiles/server.dir/states.cpp.o -o server  -lmysqlclient 
+/usr/bin/g++ -g -rdynamic CMakeFiles/server.dir/main.cpp.o CMakeFiles/server.dir/models.cpp.o CMakeFiles/server.dir/handler.cpp.o CMakeFiles/server.dir/controllers.cpp.o CMakeFiles/server.dir/router.cpp.o CMakeFiles/server.dir/states.cpp.o CMakeFiles/server.dir/logger.cpp.o -o server  -lmysqlclient 

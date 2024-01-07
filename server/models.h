@@ -1,7 +1,8 @@
 #pragma once
-#include <fstream>
 #include <memory>
+#include <thread>
 #include "handler.h"
+#include "logger.h"
 
 class Server
 {
@@ -19,5 +20,6 @@ private:
     void setConfigs();
     void setHandler(std::unique_ptr<Handler>&& handler);
     std::unique_ptr<MYSQL> mysql_;
+    std::unique_ptr<Logger> logger_;
     DTO conf_;
 };

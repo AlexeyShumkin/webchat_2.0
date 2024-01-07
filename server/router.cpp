@@ -29,7 +29,7 @@ void Router::wiretap()
 {
     if(!status_)
         return;
-    connection_status = listen(socket_file_descriptor, 5);
+    connection_status = listen(socket_file_descriptor, backlog);
     if(connection_status == -1)
     {
         std::cout << "Socket is unable to listen for new connections!\n";
@@ -58,8 +58,8 @@ void Router::take(DTO& dto)
     while(true)
     {
         bzero(buffer, BUF_SIZE);
-        read(connection, buffer, sizeof(buffer));
-        if(!strcmp("end", buffer))
+        auto bytes = read(connection, buffer, sizeof(buffer));
+        if(!strcmp("end", buffer) || bytes <= 0)
             break;
         auto digit = strlen(buffer);
         size_t size = 1;
@@ -67,12 +67,18 @@ void Router::take(DTO& dto)
             size += (buffer[i] - '0') * pow(10, --digit);
         bzero(buffer, BUF_SIZE);
         buffer[0] = '1';
-        write(connection, buffer, sizeof(buffer));
+        bytes = write(connection, buffer, sizeof(buffer));
+        if(bytes <= 0)
+            break;
         char* tmp = new char[size];
-        read(connection, tmp, size);
+        bytes = read(connection, tmp, size);
+        if(bytes <= 0)
+            break;
         dto.push_back(tmp);
         delete[] tmp;
-        write(connection, buffer, sizeof(buffer));
+        bytes = write(connection, buffer, sizeof(buffer));
+        if(bytes <= 0)
+            break;
     }
 }
 

@@ -55,8 +55,8 @@ void Router::take(DTO& dto)
     while(true)
     {
         bzero(buffer, BUF_SIZE);
-        read(socket_file_descriptor, buffer, sizeof(buffer));
-        if(!strcmp("end", buffer))
+        auto bytes = read(socket_file_descriptor, buffer, sizeof(buffer));
+        if(!strcmp("end", buffer) || bytes <= 0)
             break;
         auto digit = strlen(buffer);
         size_t size = 1;
@@ -64,12 +64,18 @@ void Router::take(DTO& dto)
             size += (buffer[i] - '0') * pow(10, --digit);
         bzero(buffer, BUF_SIZE);
         buffer[0] = '1';
-        write(socket_file_descriptor, buffer, sizeof(buffer));
+        bytes = write(socket_file_descriptor, buffer, sizeof(buffer));
+        if(bytes <= 0)
+            break;
         char* tmp = new char[size];
-        read(socket_file_descriptor, tmp, size);
+        bytes = read(socket_file_descriptor, tmp, size);
+        if(bytes <= 0)
+            break;
         dto.push_back(tmp);
         delete[] tmp;
-        write(socket_file_descriptor, buffer, sizeof(buffer));
+        bytes = write(socket_file_descriptor, buffer, sizeof(buffer));
+        if(bytes <= 0)
+            break;
     }
 }
 

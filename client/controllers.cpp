@@ -2,8 +2,8 @@
 
 ClientController::ClientController()
 {
-    router_ = std::make_unique<Router>(Router());
-    state_ = std::make_unique<ConnectionControl>(ConnectionControl());
+    router_ = std::make_unique<Router>();
+    state_ = std::make_unique<ConnectionControl>();
 }
 
 ClientController::~ClientController()

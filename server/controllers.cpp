@@ -3,8 +3,8 @@
 
 ServerController::ServerController()
 {
-    server_ = std::make_unique<Server>(Server());
-    router_ = std::make_unique<Router>(Router());
+    server_ = std::make_unique<Server>();
+    router_ = std::make_unique<Router>();
 }
 
 ServerController::~ServerController()
@@ -28,7 +28,6 @@ void ServerController::run()
             int command = router_->take();
             if(command < 1)
             {
-                
                 break;
             }
             server_->serverUp(command);
@@ -67,8 +66,8 @@ void ServerController::respond(DTO& dto)
 
 ClientController::ClientController()
 {
-    server_ = std::make_unique<Server>(Server());
-    state_ = std::make_unique<SignControl>(SignControl());
+    server_ = std::make_unique<Server>();
+    state_ = std::make_unique<SignControl>();
 }
 
 ClientController::~ClientController()

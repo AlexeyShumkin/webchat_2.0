@@ -95,7 +95,7 @@ void RoomControl::request(ClientController* cc)
     case '5':
         cc->send(dto_, 7);
         std::cout << "User " << dto_[0] << " left the chat room.\n";
-        setState(cc, std::make_unique<SignControl>(SignControl()));
+        setState(cc, std::make_unique<SignControl>());
         break;
     case 'q':
         exit(cc);

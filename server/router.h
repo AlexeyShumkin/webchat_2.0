@@ -30,4 +30,5 @@ private:
     socklen_t length;
     int socket_file_descriptor, connection, bind_status, connection_status;
     char buffer[BUF_SIZE];
+    const int backlog { 5 };
 };

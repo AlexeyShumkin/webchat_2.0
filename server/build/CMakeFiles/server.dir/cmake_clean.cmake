@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/server.dir/controllers.cpp.o.d"
   "CMakeFiles/server.dir/handler.cpp.o"
   "CMakeFiles/server.dir/handler.cpp.o.d"
+  "CMakeFiles/server.dir/logger.cpp.o"
+  "CMakeFiles/server.dir/logger.cpp.o.d"
   "CMakeFiles/server.dir/main.cpp.o"
   "CMakeFiles/server.dir/main.cpp.o.d"
   "CMakeFiles/server.dir/models.cpp.o"

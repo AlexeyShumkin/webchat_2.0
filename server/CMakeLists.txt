@@ -4,7 +4,7 @@ project(server VERSION 0.1.0 LANGUAGES C CXX)
 include(CTest)
 enable_testing()
 
-add_executable(server main.cpp models.cpp handler.cpp controllers.cpp router.cpp states.cpp)
+add_executable(server main.cpp models.cpp handler.cpp controllers.cpp router.cpp states.cpp logger.cpp)
 
 find_package(PkgConfig)
 pkg_check_modules(MySQL REQUIRED mysqlclient>=5.7)

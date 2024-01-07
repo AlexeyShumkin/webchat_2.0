@@ -2,14 +2,13 @@
 
 Server::Server()
 {
-    mysql_ = std::make_unique<MYSQL>(MYSQL());
+    logger_ = std::make_unique<Logger>();
+    mysql_ = std::make_unique<MYSQL>();
     mysql_init(mysql_.get());
     setConfigs();
 	if(!mysql_real_connect(mysql_.get(), conf_[0].c_str(), conf_[1].c_str(), conf_[2].c_str(), conf_[3].c_str(), 
     stoi(conf_[4]), nullptr, 0))
          std::cout << "Connection error: " << mysql_error(mysql_.get()) << std::endl;
-    const char* query = "call complete";
-    mysql_query(mysql_.get(), query);
 }
 
 void Server::setConfigs()
@@ -21,6 +20,11 @@ void Server::setConfigs()
 
 bool Server::handle(DTO& dto)
 {
+    if(dto.size() > 2)
+    {
+        std::string line = dto[0] + " -> " + dto[1] + " [ " + dto[2] + " ]";
+        logger_->record(line);
+    }
     return handler_->specHandle(dto, mysql_.get());
 }
 
@@ -31,27 +35,27 @@ void Server::serverUp(int command)
     switch(command)
     {
     case SIGNUP:
-        setHandler(std::make_unique<SignUpHandler>(SignUpHandler()));
+        setHandler(std::make_unique<SignUpHandler>());
         break;
     case SIGNIN:
-        setHandler(std::make_unique<SignInHandler>(SignInHandler()));
+        setHandler(std::make_unique<SignInHandler>());
         break;
     case POST:
-        setHandler(std::make_unique<PostHandler>(PostHandler()));
+        setHandler(std::make_unique<PostHandler>());
         break;
     case READ:
-        setHandler(std::make_unique<ReadHandler>(ReadHandler()));
+        setHandler(std::make_unique<ReadHandler>());
         commandFlag_ = true;
         break;
     case FIND:
-        setHandler(std::make_unique<FindUserHandler>(FindUserHandler()));
+        setHandler(std::make_unique<FindUserHandler>());
         break;
     case USERS:
-        setHandler(std::make_unique<UserDisplayHandler>(UserDisplayHandler()));
+        setHandler(std::make_unique<UserDisplayHandler>());
         commandFlag_ = true;
         break;
     case SIGNOUT:
-        setHandler(std::make_unique<SignOutHandler>(SignOutHandler()));
+        setHandler(std::make_unique<SignOutHandler>());
         break;
     }
 }
