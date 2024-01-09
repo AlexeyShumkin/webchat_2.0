@@ -1,8 +1,6 @@
 #pragma once
 #include <memory>
-#include <thread>
 #include "handler.h"
-#include "logger.h"
 
 class Server
 {
@@ -13,6 +11,7 @@ public:
     bool getCommandFlag() const;
     MYSQL* getMysql() const;
     void setDefaultStatuses();
+    void viewLog(int lineCount);
 private:
     enum Commands { SIGNUP = 1, SIGNIN, POST, READ, FIND, USERS, SIGNOUT };
     bool commandFlag_{ false };

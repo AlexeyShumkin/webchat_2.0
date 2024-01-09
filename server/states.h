@@ -29,6 +29,7 @@ public:
     bool post();
     void read(ClientController* cc, int command);
     void setRecipient(ClientController* cc);
+    void viewLog(ClientController* cc);
 protected:
     std::string recipient_{"all"};
 };

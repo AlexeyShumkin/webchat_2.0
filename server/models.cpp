@@ -20,7 +20,7 @@ void Server::setConfigs()
 
 bool Server::handle(DTO& dto)
 {
-    if(dto.size() > 2)
+    if(dto.size() > 2)  // DTO contains more than two elements only in processing messages
     {
         std::string line = dto[0] + " -> " + dto[1] + " [ " + dto[2] + " ]";
         logger_->record(line);
@@ -74,6 +74,11 @@ void Server::setDefaultStatuses()
 {
     const char* query = "update users set status = default";
     mysql_query(mysql_.get(), query);
+}
+
+void Server::viewLog(int lineCount)
+{
+    logger_->recite(lineCount);
 }
 
 void Server::setHandler(std::unique_ptr<Handler>&& handler)

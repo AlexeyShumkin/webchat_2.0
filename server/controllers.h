@@ -27,6 +27,7 @@ public:
     void run();
     void request();
     bool send(DTO& dto, int command);
+    void viewLog(int lineCount);
 private:
     friend class State;
     bool active_{ true };

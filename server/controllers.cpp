@@ -95,6 +95,11 @@ bool ClientController::send(DTO& dto, int command)
     return server_->handle(dto);
 }
 
+void ClientController::viewLog(int lineCount)
+{
+    server_->viewLog(lineCount);
+}
+
 void ClientController::setState(std::unique_ptr<State>& state)
 {
     state_ = move(state);

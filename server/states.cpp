@@ -68,7 +68,7 @@ void RoomControl::request(ClientController* cc)
     while(dto_.size() > 2)
         dto_.pop_back();
     char action = '0';
-    std::cout << "Send message(1), read conversation(2), change room(3), display users(4), sign out(5), exit(q): ";
+    std::cout << "Send message(1), read conversation(2), change room(3), display users(4), sign out(5), view message log(6), exit(q): ";
     std::cin >> action;
     switch(action)
     {
@@ -96,6 +96,9 @@ void RoomControl::request(ClientController* cc)
         cc->send(dto_, 7);
         std::cout << "User " << dto_[0] << " left the chat room.\n";
         setState(cc, std::make_unique<SignControl>());
+        break;
+    case '6':
+        viewLog(cc);
         break;
     case 'q':
         exit(cc);
@@ -163,3 +166,12 @@ void RoomControl::setRecipient(ClientController* cc)
     recipient_ = recipient;
     dto_[1] = recipient_;
 }
+
+void RoomControl::viewLog(ClientController* cc)
+{
+    std::cout << "Enter the count of lines to output from message log: ";
+    int lineCount{};
+    std::cin >> lineCount;
+    cc->viewLog(lineCount);
+}
+
